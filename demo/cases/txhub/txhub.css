@@ -1,0 +1,1578 @@
+/*
+ * 시연 화면 'txhub-portal' — 클라우드 테스트 자동화(TaaS) 포털 · 성능 테스트
+ * 스코프: .agd-tx (렌더러 루트, .agd-k 키트의 채움 · 글꼴 · 아이콘 규칙을 함께 쓴다). 접두어 agd-tx-.
+ * 영역 폭(data-size): lg ≥1000 · md 700~999 · sm <700
+ */
+
+.agd-tx {
+  --tx-primary: #5b5fe6;
+  --tx-p50: #eef0ff;
+  --tx-p200: #c3c5f6;
+  --tx-green: #20b37e;
+  --tx-bg: #eef0f3;
+  --tx-line: #e7e9ee;
+  --tx-field: #cfd3da;
+  --tx-text: #1f2430;
+  --tx-muted: #6b7280;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  background: var(--tx-bg);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--tx-text);
+}
+
+.agd-tx .agd-tx-hide {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------- 왼쪽 아이콘 메뉴 */
+.agd-tx-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0;
+  border-right: 1px solid var(--tx-line);
+  background: #fff;
+}
+
+.agd-tx-mark {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 8px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #f1c9d8, #cbc6f2);
+}
+
+.agd-tx .agd-tx-railbtn {
+  width: 36px;
+  height: 32px;
+  border-radius: 7px;
+  color: #4b5563;
+}
+
+.agd-tx .agd-tx-railbtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.agd-tx .agd-tx-railbtn.is-active {
+  background: var(--tx-p50);
+  color: var(--tx-primary);
+}
+
+.agd-tx-railgap {
+  flex: 1 1 auto;
+}
+
+/* ---------------------------------------------------------------- 머리 · 탭 · 본문 */
+.agd-tx-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.agd-tx-top {
+  display: flex;
+  flex: 0 0 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--tx-line);
+  background: #fff;
+}
+
+.agd-tx-title {
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.agd-tx-ctx {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.agd-tx-ctxitem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.agd-tx-ctxlabel {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-tx-ctxval {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+  padding: 0 6px 0 9px;
+  border: 1px solid #d5d8de;
+  border-radius: 5px;
+  font-size: 11.5px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.agd-tx-subtabs {
+  display: flex;
+  flex: 0 0 34px;
+  gap: 22px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--tx-line);
+  background: #fff;
+}
+
+.agd-tx-subtab {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.agd-tx-subtab.is-on {
+  border-bottom-color: var(--tx-primary);
+  font-weight: 600;
+  color: var(--tx-primary);
+}
+
+.agd-tx-subtab.is-pressed {
+  color: var(--tx-primary);
+}
+
+.agd-tx-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-tx-page {
+  display: none;
+}
+
+.agd-tx-page.is-on {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+}
+
+.agd-tx-page.is-enter {
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-tx-col {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------- 카드 · 버튼 · 입력칸 */
+.agd-tx-card {
+  min-width: 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+}
+
+.agd-tx-chead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.agd-tx-ctitle {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.agd-tx-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: transform 0.12s, filter 0.12s, background 0.2s;
+}
+
+.agd-tx-btn.is-primary {
+  background: var(--tx-primary);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(91, 95, 230, 0.28);
+}
+
+.agd-tx-btn.is-green {
+  background: var(--tx-green);
+  color: #fff;
+}
+
+.agd-tx-btn.is-outline {
+  border: 1px solid var(--tx-p200);
+  background: #fff;
+  color: var(--tx-primary);
+}
+
+.agd-tx-btn.is-busy {
+  background: #9ea1ee;
+}
+
+.agd-tx-btn.is-pressed {
+  transform: scale(0.95);
+  filter: brightness(0.92);
+}
+
+.agd-tx .agd-tx-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.agd-tx-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--tx-primary);
+  white-space: nowrap;
+}
+
+.agd-tx .agd-tx-link svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-tx-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 34px;
+  margin: 10px 12px;
+  padding: 0 8px 0 10px;
+  border: 1px solid var(--tx-field);
+  border-radius: 5px;
+  background: #fff;
+  font-size: 12.5px;
+}
+
+.agd-tx-field.is-select {
+  background: #fafbfc;
+}
+
+.agd-tx-field.is-focus {
+  border-color: var(--tx-primary);
+  box-shadow: 0 0 0 1px var(--tx-primary);
+}
+
+.agd-tx-field.is-pressed {
+  border-color: var(--tx-primary);
+}
+
+.agd-tx-flabel {
+  position: absolute;
+  top: -7px;
+  left: 8px;
+  padding: 0 4px;
+  background: #fff;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tx-muted);
+}
+
+.agd-tx-fval {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agd-tx-field.is-ph .agd-tx-fval,
+.agd-tx-fval.is-ph {
+  color: #9ca3af;
+}
+
+.agd-tx .agd-tx-fico {
+  margin-left: auto;
+  color: #6b7280;
+}
+
+.agd-tx .agd-tx-fico svg {
+  width: 16px;
+  height: 16px;
+}
+
+.agd-tx-small {
+  min-height: 30px;
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+.agd-tx-name .agd-tx-fval {
+  flex: 0 1 auto;
+}
+
+.agd-tx-caret {
+  display: none;
+  width: 1px;
+  height: 15px;
+  margin-left: -5px;
+  background: #111;
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-tx-caret.is-on {
+  display: block;
+}
+
+/* ---------------------------------------------------------------- 표(격자 줄) */
+.agd-tx-tr {
+  display: grid;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.agd-tx-tr.is-head {
+  min-height: 32px;
+  font-weight: 600;
+}
+
+.agd-tx-tr.is-sel {
+  background: var(--tx-p50);
+}
+
+.agd-tx-table > .agd-tx-tr:not(.is-head) {
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-tx-td,
+.agd-tx-tr > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agd-tx-td.is-pressed {
+  color: var(--tx-primary);
+}
+
+.agd-tx-t-scen .agd-tx-tr {
+  grid-template-columns: 64px minmax(0, 1.6fr) minmax(0, 1fr) 36px;
+  min-height: 38px;
+}
+
+.agd-tx .agd-tx-del {
+  color: #ef4444;
+}
+
+.agd-tx .agd-tx-del svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-tx-pager {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 11.5px;
+  color: #374151;
+}
+
+.agd-tx-rppval {
+  display: inline-flex;
+  align-items: center;
+}
+
+.agd-tx .agd-tx-pgbtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-tx .agd-tx-pgbtn.is-off {
+  color: #c4c7ce;
+}
+
+.agd-tx-empty {
+  padding: 14px 12px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--tx-muted);
+}
+
+/* ---------------------------------------------------------------- ② 시나리오 · 플랜 · 스케줄 그룹 */
+.agd-tx-p-plan.is-on {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+}
+
+.agd-tx-t-req .agd-tx-tr {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.7fr) minmax(0, 0.55fr) minmax(0, 1.7fr);
+  font-size: 11.5px;
+}
+
+.agd-tx-method {
+  font-weight: 700;
+  color: var(--tx-green);
+}
+
+.agd-tx-t-plan .agd-tx-tr {
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 0.8fr) minmax(0, 0.9fr);
+  font-size: 11.5px;
+}
+
+.agd-tx-grow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 11px 12px;
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-tx-gname {
+  font-weight: 600;
+}
+
+.agd-tx-gkind {
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--tx-p50);
+  font-size: 11px;
+  color: var(--tx-primary);
+}
+
+.agd-tx-gwhen {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--tx-muted);
+}
+
+.agd-tx-acts {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 12px 2px;
+}
+
+.agd-tx .agd-tx-alert {
+  color: var(--tx-primary);
+}
+
+.agd-tx .agd-tx-alert svg {
+  width: 17px;
+  height: 17px;
+}
+
+.agd-tx-box {
+  margin: 10px 12px;
+  border: 1px solid var(--tx-line);
+  border-radius: 8px;
+}
+
+.agd-tx-bhead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 42px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.agd-tx-btitle {
+  margin-right: auto;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.agd-tx-credit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agd-tx .agd-tx-credit svg {
+  width: 17px;
+  height: 17px;
+}
+
+.agd-tx-credittext {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.agd-tx-creditlabel {
+  font-size: 10px;
+  color: var(--tx-muted);
+}
+
+.agd-tx-creditval {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.agd-tx-slider {
+  padding: 6px 12px 2px;
+}
+
+.agd-tx-slabel {
+  font-size: 12px;
+}
+
+.agd-tx-srow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 64px;
+  align-items: center;
+  gap: 14px;
+}
+
+.agd-tx-srail {
+  padding: 18px 6px 0;
+}
+
+.agd-tx-track {
+  position: relative;
+  height: 4px;
+  border-radius: 2px;
+  background: #d9daf8;
+}
+
+.agd-tx-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 2px;
+  background: var(--tx-primary);
+}
+
+.agd-tx-thumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--tx-primary);
+  box-shadow: 0 0 0 4px rgba(91, 95, 230, 0.16);
+  transform: translate(-50%, -50%);
+}
+
+.agd-tx-bubble {
+  position: absolute;
+  bottom: 19px;
+  left: 50%;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: #4a4f5a;
+  font-size: 10.5px;
+  font-style: normal;
+  line-height: 16px;
+  color: #fff;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.agd-tx-ticks {
+  position: relative;
+  height: 15px;
+  margin-top: 6px;
+}
+
+.agd-tx-tick {
+  position: absolute;
+  top: 0;
+  font-size: 10px;
+  color: #4b5563;
+  transform: translateX(-50%);
+}
+
+.agd-tx-tick:first-child {
+  transform: none;
+}
+
+.agd-tx-tick:last-child {
+  transform: translateX(-100%);
+}
+
+.agd-tx-sbox {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--tx-field);
+  border-radius: 5px;
+  font-size: 12.5px;
+}
+
+.agd-tx-advreset {
+  color: #ef4444;
+}
+
+.agd-tx-advgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  padding: 10px 12px 8px;
+}
+
+.agd-tx-advlabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.agd-tx-advdesclabel {
+  padding: 0 12px;
+  font-size: 10.5px;
+  color: var(--tx-muted);
+}
+
+.agd-tx-advdesc {
+  padding: 2px 12px 12px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--tx-muted);
+  word-break: keep-all;
+}
+
+/* ---------------------------------------------------------------- ③ 스케줄 캘린더 */
+.agd-tx-p-cal.is-on {
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1.3fr);
+}
+
+.agd-tx-multi {
+  flex-wrap: wrap;
+  min-height: 36px;
+  padding: 4px 6px 4px 8px;
+}
+
+.agd-tx-chips {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.agd-tx-chips:empty {
+  display: none;
+}
+
+.agd-tx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 11px;
+  background: #eceef2;
+  font-size: 11px;
+  white-space: nowrap;
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-tx-chip > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agd-tx-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.agd-tx-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.agd-tx-switch {
+  position: relative;
+  width: 28px;
+  height: 14px;
+  border-radius: 7px;
+  background: #c4c7cf;
+  transition: background 0.2s;
+}
+
+.agd-tx-switch::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.agd-tx-toggle.is-on .agd-tx-switch {
+  background: var(--tx-p200);
+}
+
+.agd-tx-toggle.is-on .agd-tx-switch::after {
+  background: var(--tx-primary);
+  transform: translateX(14px);
+}
+
+.agd-tx-range2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  padding: 4px 10px;
+}
+
+.agd-tx-range2 .agd-tx-field {
+  margin: 8px 0;
+}
+
+.agd-tx-fline {
+  display: none;
+}
+
+.agd-tx-caltool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.agd-tx-projpick {
+  width: 130px;
+  margin: 0;
+}
+
+.agd-tx-calnav {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto;
+}
+
+.agd-tx-month {
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.agd-tx-views {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--tx-p200);
+  border-radius: 5px;
+}
+
+.agd-tx .agd-tx-viewbtn {
+  width: 30px;
+  height: 26px;
+  color: var(--tx-primary);
+}
+
+.agd-tx .agd-tx-viewbtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-tx .agd-tx-viewbtn.is-on {
+  background: var(--tx-primary);
+  color: #fff;
+}
+
+.agd-tx-calgrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin: 0 12px 12px;
+  border-top: 1px solid var(--tx-line);
+  border-left: 1px solid var(--tx-line);
+}
+
+.agd-tx-wday,
+.agd-tx-cell {
+  border-right: 1px solid var(--tx-line);
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.agd-tx-wday {
+  padding: 6px 0;
+  background: #f6f7f9;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.agd-tx-cell {
+  min-width: 0;
+  min-height: 56px;
+  padding: 4px;
+  text-align: center;
+}
+
+.agd-tx-day {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 9px;
+  font-size: 11px;
+  color: #374151;
+}
+
+.agd-tx-cell.is-out .agd-tx-day {
+  color: #c0c4cc;
+}
+
+.agd-tx-cell.is-today .agd-tx-day {
+  background: var(--tx-primary);
+  color: #fff;
+}
+
+.agd-tx-evs {
+  display: grid;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.agd-tx-ev {
+  display: flex;
+  gap: 3px;
+  min-width: 0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: var(--ev, #5b5fe6);
+  font-size: 10px;
+  line-height: 1.3;
+  color: #fff;
+  text-align: left;
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-tx-ev > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agd-tx-ev > b {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.agd-tx-ev.is-now {
+  border: 1px dashed #f59e0b;
+  background: #fff7e6;
+  color: #b45309;
+}
+
+/* ---------------------------------------------------------------- ④ Runs */
+.agd-tx-rfilter {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 4px 12px 8px;
+}
+
+.agd-tx-rfilter > .agd-tx-field {
+  flex: 0 1 130px;
+}
+
+.agd-tx-rgap {
+  flex: 1 1 auto;
+}
+
+.agd-tx-tools {
+  display: flex;
+  gap: 16px;
+  padding: 2px 14px 6px;
+}
+
+.agd-tx-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--tx-primary);
+}
+
+.agd-tx-t-runs .agd-tx-tr {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.75fr) minmax(0, 1.55fr) minmax(0, 1.55fr) minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 0.55fr);
+  min-height: 38px;
+  font-size: 11.5px;
+}
+
+.agd-tx-t-runs .agd-tx-tr.is-new {
+  background: #f7f8ff;
+}
+
+.agd-tx-rname {
+  color: var(--tx-primary);
+}
+
+.agd-tx-rkind {
+  color: var(--tx-green);
+}
+
+.agd-tx-rprog,
+.agd-tx-rstat,
+.agd-tx-rres {
+  display: flex;
+  justify-content: center;
+}
+
+.agd-tx .agd-tx-rres {
+  color: var(--tx-primary);
+}
+
+.agd-tx .agd-tx-rres svg {
+  width: 17px;
+  height: 17px;
+}
+
+.agd-tx-pbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #eef0f3;
+}
+
+.agd-tx-pfill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: #a7f0cd;
+}
+
+.agd-tx-pbar.is-fail .agd-tx-pfill {
+  background: #fecaca;
+}
+
+.agd-tx-pbar.is-cancel .agd-tx-pfill {
+  background: #cfe6fb;
+}
+
+.agd-tx-pbar.is-running .agd-tx-pfill {
+  background: #c7cbfa;
+}
+
+.agd-tx-ptext {
+  position: relative;
+  font-size: 11px;
+}
+
+.agd-tx-status {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 11px;
+  font-size: 11px;
+}
+
+.agd-tx-status.is-complete {
+  background: #d7f8e9;
+  color: #0e9f6e;
+}
+
+.agd-tx-status.is-fail {
+  background: #fde2e2;
+  color: #dc2626;
+}
+
+.agd-tx-status.is-cancel {
+  background: #e0f0fe;
+  color: #0369a1;
+}
+
+.agd-tx-status.is-running {
+  background: #e3e5ff;
+  color: var(--tx-primary);
+}
+
+/* ---------------------------------------------------------------- ⑤ 대시보드 */
+.agd-tx-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 10px 12px 12px;
+}
+
+.agd-tx-tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 150px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.agd-tx-tile.is-c0 {
+  background: #9179d9;
+}
+
+.agd-tx-tile.is-c1 {
+  background: #36a3fb;
+}
+
+.agd-tx-tile.is-c2 {
+  background: #34dca3;
+}
+
+.agd-tx-tile.is-c3 {
+  background: #f8bb45;
+}
+
+.agd-tx-tlabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.agd-tx-tval {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.agd-tx-ringwrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin: 6px auto 0;
+}
+
+.agd-tx-ring {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.agd-tx-ringbg,
+.agd-tx-ringfg {
+  fill: none;
+  stroke-width: 6;
+}
+
+.agd-tx-ringbg {
+  stroke: rgba(255, 255, 255, 0.25);
+}
+
+.agd-tx-ringfg {
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-linecap: round;
+}
+
+.agd-tx-pct {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.agd-tx-charts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.agd-tx-plot {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  height: 170px;
+  padding: 12px 12px 0;
+}
+
+.agd-tx-yaxis {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.agd-tx-yaxis > span {
+  position: absolute;
+  right: 6px;
+  font-size: 10px;
+  color: var(--tx-muted);
+  transform: translateY(-50%);
+}
+
+.agd-tx-yaxis > span:nth-child(1),
+.agd-tx-grid > i:nth-child(1) {
+  top: 0;
+}
+
+.agd-tx-yaxis > span:nth-child(2),
+.agd-tx-grid > i:nth-child(2) {
+  top: 25%;
+}
+
+.agd-tx-yaxis > span:nth-child(3),
+.agd-tx-grid > i:nth-child(3) {
+  top: 50%;
+}
+
+.agd-tx-yaxis > span:nth-child(4),
+.agd-tx-grid > i:nth-child(4) {
+  top: 75%;
+}
+
+.agd-tx-yaxis > span:nth-child(5),
+.agd-tx-grid > i:nth-child(5) {
+  top: 100%;
+}
+
+.agd-tx-bars {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.agd-tx-grid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 18px;
+  left: 0;
+}
+
+.agd-tx-grid > i {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: #eceef2;
+}
+
+.agd-tx-barcol {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.agd-tx-stack {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column-reverse;
+  width: 55%;
+  max-width: 22px;
+}
+
+.agd-tx-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.agd-tx-seg > b {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.agd-tx-seg.is-s,
+.agd-tx-lg.is-s > i {
+  background: #2ee0a2;
+}
+
+.agd-tx-seg.is-f,
+.agd-tx-lg.is-f > i {
+  background: #ff5b7a;
+}
+
+.agd-tx-seg.is-c,
+.agd-tx-lg.is-c > i {
+  background: #4aa8ff;
+}
+
+.agd-tx-seg.is-r,
+.agd-tx-lg.is-r > i {
+  background: #6c63ff;
+}
+
+.agd-tx-xlab {
+  flex: 0 0 18px;
+  font-size: 9.5px;
+  line-height: 18px;
+  color: var(--tx-muted);
+}
+
+.agd-tx-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+  padding: 8px 0 12px;
+  font-size: 11px;
+}
+
+.agd-tx-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.agd-tx-lg > i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------- md: 앱 창 700~999 */
+.agent-demo[data-size='md'] .agd-tx-ctxitem:not(.is-project) {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-tx-t-runs .agd-tx-tr {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.75fr) minmax(0, 1.7fr) minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 0.5fr);
+}
+
+.agent-demo[data-size='md'] .agd-tx-rend {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-tx-projpick {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-tx-tile {
+  min-height: 130px;
+}
+
+.agent-demo[data-size='md'] .agd-tx-ringwrap {
+  width: 66px;
+  height: 66px;
+}
+
+/* ---------------------------------------------------------------- sm: 앱 창 700 미만(휴대폰 약 350) */
+.agent-demo[data-size='sm'] .agd-tx {
+  grid-template-columns: minmax(0, 1fr);
+  font-size: 11.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-rail,
+.agent-demo[data-size='sm'] .agd-tx-ctx {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-top {
+  flex-basis: 40px;
+  padding: 0 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-title {
+  font-size: 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-subtabs {
+  flex-basis: 32px;
+  padding: 0 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-body {
+  padding: 8px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-chead {
+  min-height: 38px;
+  padding: 5px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-ctitle {
+  font-size: 13px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-tr {
+  padding: 0 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-t-scen .agd-tx-tr {
+  grid-template-columns: 40px minmax(0, 1fr) 28px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-t-scen .agd-tx-tr > :nth-child(3),
+.agent-demo[data-size='sm'] .agd-tx-rpp {
+  display: none;
+}
+
+/* 시나리오 → 플랜 → 플랜 정보 → 스케줄 그룹 순서로 한 줄에 */
+.agent-demo[data-size='sm'] .agd-tx-p-plan.is-on {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-tx-p-plan .agd-tx-col {
+  display: contents;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-scn {
+  order: 1;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-plan {
+  order: 2;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-pinfo {
+  order: 3;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-group {
+  order: 4;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-t-req .agd-tx-tr {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.6fr);
+}
+
+.agent-demo[data-size='sm'] .agd-tx-t-req .agd-tx-tr > :nth-child(4) {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-field {
+  margin: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-acts {
+  padding: 8px 10px 0;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-acts .agd-tx-btn {
+  padding: 0 9px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-box {
+  margin: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-bhead {
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 6px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-btitle {
+  flex: 1 0 100%;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-slider {
+  padding: 4px 10px 0;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-srow {
+  grid-template-columns: minmax(0, 1fr) 50px;
+  gap: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-tick:not(:first-child):not(:last-child) {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-advgrid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-advdesc,
+.agent-demo[data-size='sm'] .agd-tx-advdesclabel {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+/* 캘린더: 왼쪽 거르기 대신 고른 플랜 한 줄 + 즉시 실행 포함 */
+.agent-demo[data-size='sm'] .agd-tx-p-cal.is-on {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-tx-filters,
+.agent-demo[data-size='sm'] .agd-tx-range2,
+.agent-demo[data-size='sm'] .agd-tx-projpick,
+.agent-demo[data-size='sm'] .agd-tx-views {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-fline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 8px 10px 0;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-fline .agd-tx-chips {
+  flex: 0 1 auto;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-caltool {
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-caltool .agd-tx-btn {
+  height: 26px;
+  padding: 0 9px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-month {
+  font-size: 13px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-calnav {
+  gap: 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-calgrid {
+  margin: 0 10px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-cell {
+  min-height: 44px;
+  padding: 3px 2px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-day {
+  padding: 0 3px;
+  font-size: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-ev {
+  justify-content: center;
+  padding: 1px 2px;
+  font-size: 9px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-ev > span {
+  display: none;
+}
+
+/* Runs: 시나리오명 · 진행률 · Status만 */
+.agent-demo[data-size='sm'] .agd-tx-rfilter,
+.agent-demo[data-size='sm'] .agd-tx-tools,
+.agent-demo[data-size='sm'] .agd-tx-rkind,
+.agent-demo[data-size='sm'] .agd-tx-rstart,
+.agent-demo[data-size='sm'] .agd-tx-rend,
+.agent-demo[data-size='sm'] .agd-tx-rres,
+.agent-demo[data-size='sm'] .agd-tx-t-runs .agd-tx-tr.is-head > :nth-child(2),
+.agent-demo[data-size='sm'] .agd-tx-t-runs .agd-tx-tr.is-head > :nth-child(3),
+.agent-demo[data-size='sm'] .agd-tx-t-runs .agd-tx-tr.is-head > :nth-child(4),
+.agent-demo[data-size='sm'] .agd-tx-t-runs .agd-tx-tr.is-head > :nth-child(7) {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-t-runs .agd-tx-tr {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 0.95fr);
+}
+
+/* 대시보드: 타일 2 × 2 · 차트 하나 */
+.agent-demo[data-size='sm'] .agd-tx-tiles {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 10px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-tile {
+  min-height: 0;
+  padding: 8px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-tlabel {
+  font-size: 11.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-ringwrap {
+  width: 58px;
+  height: 58px;
+  margin-top: 4px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-pct {
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-charts {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-tx-chart.is-second {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-tx-plot {
+  height: 150px;
+  padding: 10px 10px 0;
+}
+
+/* ---------------------------------------------------------------- 모션 줄이기 */
+@media (prefers-reduced-motion: reduce) {
+  .agd-tx *,
+  .agd-tx *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 값 말풍선은 슬라이더가 움직이는 동안만(이름표와 겹치지 않게) */
+.agd-tx-bubble {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.agd-tx-slider.is-active .agd-tx-bubble {
+  opacity: 1;
+}

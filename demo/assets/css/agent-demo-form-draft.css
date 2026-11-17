@@ -1,0 +1,1291 @@
+/*
+ * 구축 사례 시연 — 화면 유형 form-draft (설계 0002 §3-3)
+ * 공시 양식 초안 작성 화면의 배치 · 색을 옮겼다. 토큰(--k-*) · 부품(agd-k-*)은 agent-demo-kit.css.
+ * 클래스 접두어 agd-fd- · 키프레임 접두어 agdFd. 배치는 영역 폭(data-size)으로 바꾼다.
+ */
+
+.agd-fd [hidden] {
+  display: none !important;
+}
+
+.agd-fd {
+  display: grid;
+  grid-template-columns: 172px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* 본문은 원본 페이지처럼 세로로 넘친다 — 생성 중에는 렌더러가 이 안에서만 스크롤한다(페이지는 그대로) */
+.agd-fd-main {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 16px 14px; /* 위 여백은 제목이 갖는다 — 위에 붙는 공시 줄이 창 맨 위에 딱 붙게 */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.agd-fd-main::-webkit-scrollbar {
+  display: none;
+}
+
+.agd-fd-btntext {
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------- 제목 */
+.agd-fd-head {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding-top: 12px;
+}
+
+.agd-fd-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.agd-fd-desc {
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--k-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------------- 단계 표시 */
+.agd-fd-flow {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.agd-fd-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-surface);
+  color: var(--k-text);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.agd-fd-step[data-s='active'] {
+  border-color: var(--k-primary);
+  background: var(--k-p50);
+  color: var(--k-p700);
+  box-shadow: inset 0 -2px 0 var(--k-primary);
+}
+
+.agd-fd-step[data-s='disabled'] {
+  border-style: dashed;
+  border-color: var(--k-border-strong);
+  background: var(--k-alt);
+  color: var(--k-subtle);
+}
+
+.agd-fd-num {
+  display: inline-flex;
+  flex: 0 0 22px;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 50%;
+  background: var(--k-alt);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--k-subtle);
+}
+
+.agd-fd-step[data-s='done'] .agd-fd-num {
+  border-color: var(--k-success-bd);
+  background: var(--k-success-50);
+  color: var(--k-success-fg);
+}
+
+.agd-fd-step[data-s='active'] .agd-fd-num {
+  border-color: var(--k-primary);
+  background: var(--k-primary);
+  color: #fff;
+}
+
+.agd-k .agd-fd-num .agd-k-ico svg {
+  width: 12px;
+  height: 12px;
+}
+
+.agd-fd-steptext {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.agd-fd-steplabel,
+.agd-fd-stepsub {
+  overflow: hidden;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-fd-steplabel {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.agd-fd-stepsub {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--k-muted);
+}
+
+.agd-fd-step[data-s='disabled'] .agd-fd-stepsub {
+  color: var(--k-subtle);
+}
+
+/* ---------------------------------------------------------------- 공시 줄 */
+/* 공시 줄 — 원본처럼 위에 붙는다 */
+.agd-fd-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+}
+
+.agd-fd-barlabel {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-fd-field {
+  display: inline-flex;
+  flex: 0 1 170px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px 0 10px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 8px;
+  background: var(--k-surface);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.agd-fd-fieldtext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agd-fd-field .agd-k-ico {
+  color: var(--k-subtle);
+}
+
+.agd-fd-reset {
+  margin-left: auto;
+}
+
+.agd-k-btn.agd-fd-reset {
+  color: var(--k-danger-fg);
+}
+
+/* ---------------------------------------------------------------- 공시 자료 */
+.agd-fd-source {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  padding: 9px 14px;
+}
+
+.agd-fd-srchead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 26px;
+}
+
+.agd-fd-srctitle {
+  flex: 0 0 auto;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.agd-fd-srchint {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-fd-source.is-folded .agd-fd-srchint {
+  animation: adFade 0.4s ease-out;
+}
+
+.agd-fd-srctoggle {
+  margin-left: auto;
+}
+
+.agd-fd-srcbody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agd-fd-needs {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--k-alt);
+  font-size: 11.5px;
+}
+
+.agd-fd-needstitle {
+  flex: 0 0 auto;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.agd-fd-needlist {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.agd-fd-needlist li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.agd-fd-needlist b {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.agd-fd-neednote {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-fd-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 6px 12px;
+  border: 1.5px dashed var(--k-border-strong);
+  border-radius: 10px;
+  background: var(--k-surface);
+}
+
+.agd-fd-droprow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+  font-size: 12.5px;
+  color: var(--k-muted);
+}
+
+.agd-fd-droptitle {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-fd-drophint {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 10.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-subtle);
+}
+
+.agd-fd-files {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.agd-fd-fileshead {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-fd-filelist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.agd-fd-file {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  height: 32px;
+  padding: 0 6px 0 8px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-surface);
+  animation: adRise 0.3s ease-out;
+}
+
+.agd-fd-file.is-same {
+  animation: none;
+}
+
+.agd-fd-ftype {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid var(--k-border);
+  border-radius: 4px;
+  background: var(--k-alt);
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--k-muted);
+}
+
+.agd-fd-fname {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-fd-fsize {
+  flex: 0 0 auto;
+  font-size: 11px;
+  white-space: nowrap;
+  color: var(--k-subtle);
+}
+
+.agd-k .agd-fd-tagspin {
+  width: 9px;
+  height: 9px;
+  border-width: 1.5px;
+}
+
+.agd-fd-progress {
+  display: block;
+  padding: 7px 12px;
+  color: var(--k-text);
+  animation: adFade 0.25s ease-out;
+}
+
+.agd-fd-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+}
+
+.agd-fd-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.agd-fd-stage.is-todo {
+  opacity: 0.5;
+}
+
+.agd-fd-stagemark {
+  display: inline-flex;
+  flex: 0 0 12px;
+  align-items: center;
+  justify-content: center;
+  color: var(--k-info-fg);
+}
+
+.agd-k .agd-fd-stagespin {
+  width: 11px;
+  height: 11px;
+}
+
+.agd-fd-runhint {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--k-muted);
+}
+
+.agd-fd-srcfoot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.agd-fd-genwhy {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-fd-gen.is-busy {
+  opacity: 0.85;
+}
+
+.agd-k .agd-fd-gen .agd-k-spin {
+  border-color: rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+}
+
+/* ---------------------------------------------------------------- 작업 영역 — 양식 | 패널 */
+.agd-fd-work {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 12px;
+  min-height: 280px;
+}
+
+.agd-fd-form,
+.agd-fd-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.agd-fd-formhead {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 10px;
+  padding: 7px 14px 0;
+  border-bottom: 1px solid var(--k-border);
+}
+
+.agd-fd-formtitle {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.agd-fd-formname {
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.agd-fd-formacts {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.agd-fd-toc {
+  display: flex;
+  flex: 1 0 100%;
+  gap: 2px;
+  min-width: 0;
+  margin: 2px -6px 0;
+  overflow: hidden;
+}
+
+.agd-fd-tocitem {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 32px;
+  white-space: nowrap;
+  color: var(--k-muted);
+  box-shadow: inset 0 -2px 0 transparent;
+}
+
+.agd-fd-tocitem.is-on {
+  font-weight: 700;
+  color: var(--k-p700);
+  box-shadow: inset 0 -2px 0 var(--k-primary);
+}
+
+.agd-fd-legend {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 3px 12px;
+  padding: 5px 14px;
+  border-bottom: 1px solid var(--k-border);
+  background: var(--k-alt);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--k-muted);
+  animation: adFade 0.4s ease-out;
+}
+
+.agd-fd-legenditem {
+  white-space: nowrap;
+}
+
+.agd-fd-sw {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 4px;
+  border: 1px solid;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+
+.agd-fd-sw.is-warn {
+  border-color: var(--k-warning-bd);
+  background: var(--k-warning-50);
+}
+
+.agd-fd-sw.is-info {
+  border-color: var(--k-info);
+  background: var(--k-info-50);
+}
+
+.agd-fd-sw.is-edited {
+  border-color: var(--k-info-bd);
+  background: var(--k-info-50);
+}
+
+.agd-fd-sw.is-auto {
+  border-color: var(--k-border-strong);
+  background: var(--k-alt);
+}
+
+.agd-fd-note {
+  flex: 0 0 auto;
+  padding: 6px 14px 0;
+  overflow: hidden;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+/* 양식 표(알리오 표 모양) */
+.agd-fd-sheet {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 8px 14px 12px;
+}
+
+.agd-fd-paper {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.agd-fd-secrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 5px;
+}
+
+.agd-fd-section {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.agd-fd-unit {
+  font-size: 11px;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-fd-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.agd-fd-table td {
+  height: 25px;
+  padding: 2px 6px;
+  border: 1px solid var(--k-border-strong);
+  font-size: 12px;
+  line-height: 1.35;
+  vertical-align: middle;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.agd-fd-table .agd-fd-th {
+  background: var(--k-grid);
+  font-weight: 700;
+  text-align: center;
+}
+
+.agd-fd-table .agd-fd-lab {
+  text-align: center;
+}
+
+.agd-fd-table .agd-fd-val {
+  padding: 2px 7px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.25s, color 0.25s, box-shadow 0.2s;
+}
+
+.agd-fd-table .agd-fd-val.is-auto {
+  background: var(--k-alt);
+  font-weight: 600;
+}
+
+.agd-fd-table .agd-fd-val.is-edited {
+  background: var(--k-info-50);
+  font-weight: 700;
+  color: var(--k-info-fg);
+}
+
+.agd-fd-table .agd-fd-val.is-info {
+  background: var(--k-info-50);
+  box-shadow: inset 0 0 0 1px var(--k-info-bd);
+}
+
+.agd-fd-table .agd-fd-val.is-warn {
+  background: var(--k-warning-50);
+  box-shadow: inset 0 0 0 1px var(--k-warning);
+}
+
+.agd-fd-table .agd-fd-val.is-selected,
+.agd-fd-table .agd-fd-val.is-pressed {
+  box-shadow: inset 0 0 0 2px var(--k-primary);
+}
+
+.agd-fd-table .agd-fd-val.is-pressed {
+  background: var(--k-p50);
+}
+
+/* 생성 중 — 값 칸이 깜빡이고 고칠 수 없다(agd-k-loop: 일시정지 때 멈춤) */
+.agd-fd.is-busy .agd-fd-table .agd-fd-val {
+  background: var(--k-alt);
+  animation: adPulse 1.2s ease-in-out infinite;
+}
+
+/* 값이 들어온 칸을 잠깐 물들인다 — 값은 이미 한꺼번에 들어가 있다 */
+.agd-fd-table .agd-fd-val.is-fill {
+  animation: agdFdFill 0.8s ease-out;
+}
+
+@keyframes agdFdFill {
+  from {
+    background-color: var(--k-p100);
+  }
+}
+
+/* ---------------------------------------------------------------- 오른쪽 패널 */
+.agd-fd-pbody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.agd-fd-pbody > * {
+  flex: 0 0 auto;
+}
+
+.agd-fd-pbody > .agd-k-notice {
+  animation: adFade 0.3s ease-out;
+}
+
+.agd-fd-running {
+  align-items: center;
+}
+
+/* 접고 펴는 묶음 */
+.agd-fd-fold {
+  border-radius: 8px;
+}
+
+.agd-fd-checks {
+  border: 1px solid var(--k-border);
+}
+
+.agd-fd-foldhead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.agd-fd-foldhead > .agd-k-ico {
+  margin-left: auto;
+  color: var(--k-subtle);
+  transition: transform 0.2s;
+}
+
+.agd-fd-fold.is-open > .agd-fd-foldhead > .agd-k-ico {
+  transform: rotate(180deg);
+}
+
+.agd-fd-ok {
+  font-weight: 700;
+  color: var(--k-success-fg);
+}
+
+.agd-fd-bad {
+  font-weight: 700;
+  color: var(--k-danger-fg);
+}
+
+.agd-fd-checklist {
+  margin: 0;
+  padding: 0 10px 8px;
+  list-style: none;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--k-muted);
+}
+
+.agd-fd-groupbody {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 4px;
+}
+
+/* 확인 필요 카드 */
+.agd-fd-flag {
+  position: relative;
+  padding: 9px 11px;
+  border: 1px solid var(--k-border);
+  border-left-width: 3px;
+  border-radius: 8px;
+  background: var(--k-surface);
+  animation: adRise 0.3s ease-out;
+}
+
+.agd-fd-flag.is-warn {
+  border-left-color: var(--k-warning);
+}
+
+.agd-fd-flag.is-info {
+  border-left-color: var(--k-info);
+}
+
+.agd-fd-flag.is-done {
+  border-left-color: var(--k-success);
+}
+
+.agd-fd-flag.is-flash::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -3px;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: agdFdRing 1.6s ease;
+}
+
+@keyframes agdFdRing {
+  0%,
+  40% {
+    box-shadow: 0 0 0 3px var(--k-primary);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.agd-fd-flagtitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.agd-fd-flagbody {
+  margin-top: 5px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-fd-mini {
+  width: 100%;
+  margin-top: 6px;
+  border-collapse: collapse;
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-fd-mini th,
+.agd-fd-mini td {
+  padding: 2px 5px;
+  border: 1px solid var(--k-border);
+  text-align: right;
+  word-break: keep-all;
+}
+
+.agd-fd-mini th {
+  background: var(--k-alt);
+  font-weight: 600;
+  text-align: center;
+  color: var(--k-muted);
+}
+
+.agd-fd-mini td:first-child {
+  text-align: left;
+}
+
+.agd-fd-ref {
+  margin-top: 5px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--k-subtle);
+}
+
+.agd-fd-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+/* 값 근거 */
+.agd-fd-path {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--k-muted);
+}
+
+.agd-fd-big {
+  margin-top: 1px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-fd-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+.agd-fd-facts > div {
+  padding-top: 6px;
+  border-top: 1px solid var(--k-border);
+}
+
+.agd-fd-facts dt {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+.agd-fd-facts dd {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.agd-fd-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  border: 1px dashed var(--k-p100);
+  border-radius: 8px;
+  background: var(--k-p50);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-primary);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.agd-fd-more.is-pressed {
+  border-color: var(--k-primary);
+  transform: scale(0.98);
+}
+
+.agd-fd-arrow {
+  display: inline-block;
+  transition: transform 0.15s;
+}
+
+.agd-fd-more.is-open .agd-fd-arrow {
+  transform: rotate(180deg);
+}
+
+.agd-fd-detail {
+  overflow: hidden;
+  border: 1px solid var(--k-p100);
+  border-radius: 12px;
+  background: var(--k-surface);
+  animation: adRise 0.2s ease-out;
+}
+
+.agd-fd-dsec {
+  padding: 9px 11px;
+  border-top: 1px solid var(--k-border);
+}
+
+.agd-fd-dsec:first-child {
+  border-top: 0;
+}
+
+.agd-fd-dhead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--k-p700);
+}
+
+.agd-fd-dnum {
+  display: inline-flex;
+  flex: 0 0 17px;
+  align-items: center;
+  justify-content: center;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--k-primary);
+  font-size: 10px;
+  line-height: 1;
+  color: #fff;
+}
+
+.agd-fd-calc {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11.5px;
+}
+
+.agd-fd-calcline {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.agd-fd-op {
+  font-weight: 800;
+  text-align: center;
+  color: var(--k-subtle);
+}
+
+.agd-fd-what {
+  min-width: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.agd-fd-what small {
+  display: block;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--k-subtle);
+}
+
+.agd-fd-numv {
+  font-weight: 800;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-fd-calcline.is-result {
+  margin-top: 2px;
+  padding-top: 5px;
+  border-top: 1px dashed var(--k-border-strong);
+}
+
+.agd-fd-calcline.is-result .agd-fd-what {
+  font-weight: 700;
+}
+
+.agd-fd-calcline.is-result .agd-fd-numv {
+  font-size: 13.5px;
+  color: var(--k-primary);
+}
+
+.agd-fd-quote {
+  padding: 7px 9px;
+  border-left: 3px solid var(--k-p100);
+  border-radius: 0 8px 8px 0;
+  background: var(--k-alt);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.agd-fd-pg {
+  display: inline-block;
+  margin-bottom: 2px;
+  padding: 0 5px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 4px;
+  background: var(--k-surface);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-fd-quote mark {
+  padding: 0 1px;
+  border-radius: 3px;
+  background: #fbe7b0;
+  color: inherit;
+}
+
+.agd-fd-interp {
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.agd-fd-dnotice {
+  margin-top: 6px;
+  padding: 6px 9px;
+  border: 1px solid var(--k-warning-bd);
+  border-radius: 8px;
+  background: var(--k-warning-50);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--k-warning-fg);
+}
+
+.agd-fd-golink {
+  display: inline-block;
+  margin-left: 4px;
+  border-radius: 3px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--k-primary);
+  transition: background-color 0.15s;
+}
+
+.agd-fd-golink.is-pressed {
+  background: var(--k-p50);
+  text-decoration: underline;
+}
+
+/* 근거 자세히를 차례로 펼친다 — 아직 차례가 아닌 줄 · 단은 숨겨 둔다 */
+.agd-fd-detail .is-wait {
+  display: none;
+}
+
+.agd-fd-detail .is-in {
+  animation: adRise 0.25s ease-out;
+}
+
+/* ---------------------------------------------------------------- 영역 폭별 배치(§3-3) */
+.agent-demo[data-size='md'] .agd-fd,
+.agent-demo[data-size='sm'] .agd-fd {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='md'] .agd-fd-nav,
+.agent-demo[data-size='sm'] .agd-fd-nav {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-fd-work {
+  grid-template-columns: minmax(0, 1fr) 250px;
+}
+
+.agent-demo[data-size='md'] .agd-fd-neednote,
+.agent-demo[data-size='md'] .agd-fd-drophint,
+.agent-demo[data-size='md'] .agd-fd-toc {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-fd-formhead {
+  padding-bottom: 7px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-main {
+  gap: 8px;
+  padding: 0 10px 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-head {
+  padding-top: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-work {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-panel,
+.agent-demo[data-size='sm'] .agd-fd-desc,
+.agent-demo[data-size='sm'] .agd-fd-stepsub,
+.agent-demo[data-size='sm'] .agd-fd-barlabel,
+.agent-demo[data-size='sm'] .agd-fd-reset,
+.agent-demo[data-size='sm'] .agd-fd-needs,
+.agent-demo[data-size='sm'] .agd-fd-drophint,
+.agent-demo[data-size='sm'] .agd-fd-fsize,
+.agent-demo[data-size='sm'] .agd-fd-fremove,
+.agent-demo[data-size='sm'] .agd-fd-toc,
+.agent-demo[data-size='sm'] .agd-fd-cmp,
+.agent-demo[data-size='sm'] .agd-fd-vertag,
+.agent-demo[data-size='sm'] .agd-fd-legendhint,
+.agent-demo[data-size='sm'] .agd-fd-note {
+  display: none;
+}
+
+/* 좁은 화면 단계 표시 — 번호 원만 두고 지금 단계만 이름을 보인다 */
+.agent-demo[data-size='sm'] .agd-fd-flow {
+  display: flex;
+  gap: 4px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-step {
+  flex: 0 0 auto;
+  gap: 5px;
+  padding: 5px 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-step[data-s='active'] {
+  flex: 1 1 auto;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-step:not([data-s='active']) .agd-fd-steptext {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-num {
+  flex-basis: 18px;
+  height: 18px;
+  font-size: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-steplabel {
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-bar {
+  gap: 6px;
+  padding: 6px 8px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-field {
+  flex: 1 1 auto;
+  height: 28px;
+  padding: 0 6px 0 8px;
+  font-size: 11.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-confirm {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-source {
+  padding: 8px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-filelist {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-file {
+  height: 28px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-formhead {
+  padding: 6px 10px 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-legend {
+  padding: 4px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-sheet {
+  padding: 8px 8px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-table td {
+  height: 24px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-table col:first-child {
+  width: 25% !important;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-table col:nth-child(2) {
+  width: 27% !important;
+}
+
+.agent-demo[data-size='sm'] .agd-fd-table col:nth-child(n + 3) {
+  width: 24% !important;
+}

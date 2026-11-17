@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>프로젝트 시연 · 장규현 포트폴리오</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="포트폴리오 프로젝트의 실제 화면을 HTML · CSS · JS로 재구성해 영상처럼 재생하는 시연입니다.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="assets/css/agent-demo.css?v=20261117">
+  <link rel="stylesheet" href="assets/css/agent-demo-kit.css?v=20261117">
+  <link rel="stylesheet" href="assets/css/agent-demo-draft-workspace.css?v=20261117">
+  <link rel="stylesheet" href="assets/css/agent-demo-form-draft.css?v=20261117">
+  <link rel="stylesheet" href="cases/regulation-admin/regulation-admin.css?v=20261117">
+  <link rel="stylesheet" href="cases/kcomwel/kcomwel.css?v=20261117">
+  <link rel="stylesheet" href="cases/txhub/txhub.css?v=20261117">
+  <link rel="stylesheet" href="portfolio.css?v=20261117">
+</head>
+<body>
+  <header class="pf-top">
+    <div class="inner">
+      <a class="pf-link" href="https://github.com/ImaHost/portfolio">← 장규현 포트폴리오</a>
+      <a class="pf-link" href="https://github.com/ImaHost/portfolio/tree/main/agent-demo-showcase">만든 방식 보기</a>
+    </div>
+  </header>
+  <main class="pf-demo">
+    <div class="inner">
+      <div class="pf-head">
+        <h1>프로젝트 시연</h1>
+        <p>포트폴리오에 정리한 프로젝트의 실제 화면을 영상 대신 HTML · CSS · JS로 재구성해 재생합니다. 한국산업단지공단의 규정 검색 · 국회 대응 · 공시 작성은 회사 홈페이지용으로 만든 시연을 그대로 옮겼고, 나머지는 같은 방식으로 포트폴리오용으로 만들었습니다.</p>
+        <p class="pf-hint">프로젝트와 서비스를 고르면 처음부터 재생되고, [크게 보기]로 화면을 가득 채워 볼 수 있습니다.</p>
+      </div>
+      <div class="agent-demo" data-agent-demo>
+        <div class="agd-pinfo is-hidden">
+          <p class="agd-pinfo-text"></p>
+          <ul class="agd-pinfo-badges"></ul>
+        </div>
+        <div class="agd-player">
+          <button type="button" class="agd-theater-close" data-agd-theater-close>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            <span>닫기</span>
+          </button>
+          <div class="agd-side">
+            <p class="agd-side-label" aria-hidden="true">프로젝트</p>
+            <div class="agd-projects" role="tablist" aria-label="프로젝트"></div>
+            <p class="agd-side-label" aria-hidden="true">서비스</p>
+            <div class="agd-tabs" role="tablist" aria-label="서비스"></div>
+          </div>
+          <div class="agd-panel" role="tabpanel">
+            <div class="agd-stage">
+              <div class="agd-window-bar" aria-hidden="true">
+                <span class="agd-window-dots"><i></i><i></i><i></i></span>
+                <span class="agd-window-title"></span>
+              </div>
+              <div class="agd-screen" aria-hidden="true" inert></div>
+            </div>
+            <div class="agd-bar">
+              <div class="agd-chapters is-hidden">
+                <ol class="agd-chapter-list" aria-label="시연 순서"></ol>
+                <p class="agd-chapter-now"></p>
+              </div>
+              <div class="agd-controls">
+                <button type="button" class="agd-btn" data-agd-play data-state="paused" aria-label="재생">
+                  <svg class="agd-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+                  <svg class="agd-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                  <span class="agd-btn-text">재생</span>
+                </button>
+                <button type="button" class="agd-btn" data-agd-restart>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 11-6.6 4.7l1.9.6A5 5 0 1012 7v3L7.5 6 12 2z"/></svg>
+                  <span class="agd-btn-text">처음부터</span>
+                </button>
+                <button type="button" class="agd-btn agd-btn-theater" data-agd-theater aria-expanded="false">
+                  <svg class="agd-ico-expand agd-ico-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+                  <svg class="agd-ico-shrink agd-ico-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+                  <span class="agd-btn-text">크게 보기</span>
+                </button>
+                <div class="agd-progress" aria-hidden="true"><i class="agd-progress-bar"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="agd-fallback">구축 사례 시연은 자바스크립트가 켜진 브라우저에서 볼 수 있습니다.</p>
+        <p class="agd-caption">※ 실제 구축 화면을 재구성한 시연입니다. 화면 속 규정 · 수치는 예시입니다.</p>
+        <div class="agd-about">
+          <div class="agd-info">
+            <p class="agd-summary"></p>
+            <ul class="agd-points"></ul>
+            <div class="agd-brief is-hidden">
+              <div class="agd-brief-text">
+                <div class="agd-brief-item">
+                  <p class="agd-brief-label">업무 과제</p>
+                  <p class="agd-brief-problem"></p>
+                </div>
+                <div class="agd-brief-item is-solution">
+                  <p class="agd-brief-label">해결</p>
+                  <p class="agd-brief-solution"></p>
+                </div>
+              </div>
+              <div class="agd-features">
+                <p class="agd-brief-label">핵심 기능</p>
+                <ul class="agd-feature-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="pf-foot">
+    <div class="inner">
+      <a class="pf-link" href="https://github.com/ImaHost/portfolio">← 포트폴리오로 돌아가기</a>
+    </div>
+  </footer>
+  <script defer src="assets/js/agent-demo.js?v=20261117"></script>
+  <script defer src="assets/js/projects.js?v=20261117"></script>
+  <script defer src="assets/js/renderer-rag-chat.js?v=20261117"></script>
+  <script defer src="assets/js/renderer-draft-workspace.js?v=20261117"></script>
+  <script defer src="assets/js/renderer-form-draft.js?v=20261117"></script>
+  <script defer src="assets/js/scenario-regulation-search.js?v=20261117"></script>
+  <script defer src="assets/js/scenario-assembly-answer.js?v=20261117"></script>
+  <script defer src="assets/js/scenario-disclosure-draft.js?v=20261117"></script>
+  <script defer src="cases/projects.js?v=20261117"></script>
+  <script defer src="cases/regulation-admin/renderer-regulation-admin.js?v=20261117"></script>
+  <script defer src="cases/regulation-admin/scenario-regulation-admin.js?v=20261117"></script>
+  <script defer src="cases/kcomwel/renderer-kcomwel-assist.js?v=20261117"></script>
+  <script defer src="cases/kcomwel/scenario-kcomwel-report.js?v=20261117"></script>
+  <script defer src="cases/txhub/renderer-txhub-portal.js?v=20261117"></script>
+  <script defer src="cases/txhub/scenario-txhub-perf.js?v=20261117"></script>
+  <script defer src="portfolio.js?v=20261117"></script>
+</body>
+</html>

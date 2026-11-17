@@ -1,0 +1,822 @@
+/*
+ * 화면 유형 'kcomwel-assist' — AI 재해조사 어시스턴트(포트폴리오 설계 0002 §3-2)
+ * 스코프: .agd-kw (렌더러 루트 .agd-k.agd-kw). 키프레임은 agent-demo.css의 adRise · adFade · adSpin · adBlink를 쓴다.
+ * 배치: 앱 창 폭(data-size) lg · md는 메뉴 + 본문, sm은 메뉴를 숨기고 항목 카드의 가이드를 아래로.
+ */
+
+.agd-kw {
+  --kw-primary: #1f86e0;
+  --kw-primary-dark: #146cbc;
+  --kw-band: #e1eefb;
+  --kw-head: #edf3fa;
+  --kw-line: #dbe2ea;
+  --kw-line-soft: #e8ecf1;
+  --kw-label: #f4f5f7;
+  --kw-navy: #1d3a8a;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  font-size: 12px;
+}
+
+.agd-kw .is-hidden {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------- 머리줄 · 메뉴 */
+.agd-kw-top {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--kw-primary);
+  color: #fff;
+}
+
+.agd-kw .agd-kw-topico svg {
+  width: 17px;
+  height: 17px;
+}
+
+.agd-kw-product {
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.agd-kw-frame {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.agd-kw-menu {
+  flex: 0 0 128px;
+  border-right: 1px solid var(--kw-line);
+  background: #fff;
+}
+
+.agd-kw-menu li {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--kw-line-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #222;
+  white-space: nowrap;
+}
+
+.agd-kw-menu li.is-active {
+  color: var(--kw-primary);
+}
+
+.agd-kw-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.agd-kw-title {
+  flex: 0 0 auto;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--kw-line-soft);
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* ---------------------------------------------------------------- 접수번호 줄 */
+.agd-kw-band {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 14px 0;
+  padding: 8px 10px;
+  background: var(--kw-band);
+}
+
+.agd-kw-input {
+  display: flex;
+  flex: 0 1 220px;
+  align-items: center;
+  min-width: 0;
+  height: 28px;
+  padding: 0 9px;
+  border: 1px solid #c4d3e4;
+  background: #fff;
+  font-size: 12px;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.agd-kw-input.is-focus {
+  border-color: var(--kw-primary);
+  box-shadow: 0 0 0 2px rgba(31, 134, 224, 0.18);
+}
+
+.agd-kw-input.is-focus .agd-kw-inputtext::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 13px;
+  margin-left: 1px;
+  vertical-align: -2px;
+  background: #222;
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-kw-inputtext.is-hint {
+  color: #9aa1ab;
+}
+
+.agd-kw-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid #cfd6df;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.agd-kw .agd-kw-btn .agd-k-ico svg {
+  width: 12px;
+  height: 12px;
+}
+
+.agd-kw-btn.is-primary {
+  border-color: var(--kw-primary);
+  background: var(--kw-primary);
+  color: #fff;
+}
+
+.agd-kw-btn.is-run {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--kw-primary);
+  font-size: 12px;
+  color: #fff;
+}
+
+.agd-kw .agd-kw-btn.is-run .agd-k-ico svg {
+  width: 13px;
+  height: 13px;
+  color: #ffe066;
+}
+
+.agd-kw-btn.is-run.is-busy {
+  background: #6aa9e6;
+}
+
+.agd-kw-btn.is-preview {
+  height: 30px;
+  margin: 0 6px;
+  padding: 0 12px;
+  border: 1.5px solid var(--kw-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--kw-primary-dark);
+}
+
+.agd-kw-band .agd-kw-btn.is-preview {
+  margin: 0 0 0 auto;
+}
+
+.agd-kw-btn.is-disabled {
+  opacity: 0.4;
+}
+
+.agd-kw-btn.is-done {
+  border-color: #9fd1b0;
+  background: #eaf8ef;
+  color: #18794e;
+}
+
+.agd-kw-btn.is-pressed {
+  transform: translateY(1px);
+  filter: brightness(0.95);
+}
+
+/* ---------------------------------------------------------------- 섹션 · 단계 표시 */
+.agd-kw-fixed {
+  flex: 0 0 auto;
+  padding: 0 14px;
+}
+
+.agd-kw-sec,
+.agd-kw-subsec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 8px;
+  padding: 0 0 6px 4px;
+  border-bottom: 2px solid var(--kw-primary);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #111;
+}
+
+.agd-kw-sec::before,
+.agd-kw-subsec::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--kw-primary);
+}
+
+.agd-kw-subsec {
+  margin-top: 4px;
+  border-bottom-width: 1px;
+}
+
+.agd-kw-steps {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--kw-line);
+  border-radius: 4px;
+  background: #f1f2f4;
+  overflow: hidden;
+}
+
+.agd-kw-step {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  height: 40px;
+  padding: 0 34px 0 10px;
+  border-right: 1px solid var(--kw-line);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #4b5563;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.agd-kw-step.is-active {
+  background: #e3effc;
+  color: var(--kw-primary-dark);
+}
+
+.agd-kw-num {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #9aa3ad;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.agd-kw-step.is-active .agd-kw-num {
+  background: var(--kw-primary);
+}
+
+.agd-kw-steplabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agd-kw-stepmark {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  margin-top: -9.5px;
+  border-radius: 50%;
+  background: var(--kw-primary);
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.agd-kw .agd-kw-stepmark svg {
+  width: 11px;
+  height: 11px;
+}
+
+.agd-kw-step.is-done .agd-kw-stepmark {
+  opacity: 1;
+  transform: none;
+}
+
+/* 진행 중 — 체크 자리에 도는 고리 */
+.agd-kw-step.is-running .agd-kw-stepmark {
+  border: 2px solid #b9d7f3;
+  border-top-color: var(--kw-primary);
+  background: transparent;
+  opacity: 1;
+  transform: none;
+  animation: adSpin 0.8s linear infinite;
+}
+
+.agd-kw-step.is-running .agd-kw-stepmark svg {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- 본문 */
+.agd-kw-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px 14px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-kw-empty {
+  padding: 40px 0;
+  text-align: center;
+  color: #8a919c;
+}
+
+/* 접수 데이터 표 — [라벨 · 값 · 라벨 · 값], 한 줄 전체 값은 세 칸을 차지 */
+.agd-kw-table {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr) 104px minmax(0, 1fr);
+  border-top: 1px solid var(--kw-line);
+  border-left: 1px solid var(--kw-line);
+}
+
+.agd-kw-th,
+.agd-kw-td {
+  padding: 7px 10px;
+  border-right: 1px solid var(--kw-line);
+  border-bottom: 1px solid var(--kw-line);
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.agd-kw-th.is-in,
+.agd-kw-td.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.agd-kw-th {
+  background: var(--kw-label);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  color: #333;
+}
+
+.agd-kw-td {
+  font-size: 11.5px;
+  color: #222;
+  word-break: keep-all;
+}
+
+.agd-kw-td.is-wide {
+  grid-column: span 3;
+}
+
+/* 항목 카드 — AI 초안 | AI 가이드 */
+.agd-kw-item {
+  margin-bottom: 12px;
+  border: 1px solid #d3dce8;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  animation: adRise 0.3s ease-out both;
+}
+
+.agd-kw-itemhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--kw-line-soft);
+  background: var(--kw-head);
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+}
+
+.agd-kw .agd-kw-fold svg {
+  width: 14px;
+  height: 14px;
+  color: #6b7280;
+  transform: rotate(180deg);
+}
+
+.agd-kw-itembody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 36%);
+}
+
+.agd-kw-draft {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px 14px 0;
+}
+
+.agd-kw-text {
+  min-height: 40px;
+  border: 1.5px solid transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #222;
+  word-break: keep-all;
+  transition: border-color 0.2s, background 0.2s, padding 0.2s;
+}
+
+/* 쓰는 중 · 고치는 중 — 깜박이는 커서 */
+.agd-kw-item.is-writing .agd-kw-text::after,
+.agd-kw-text.is-editing::after {
+  content: '';
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--kw-primary);
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-kw-text.is-editing {
+  padding: 6px 8px;
+  border-color: var(--kw-primary);
+  background: #fbfdff;
+}
+
+.agd-kw-added {
+  border-radius: 2px;
+  background: #fff1b8;
+  transition: background 0.6s;
+}
+
+.agd-kw-item.is-saved .agd-kw-added {
+  background: #fff7d6;
+}
+
+.agd-kw-acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: auto;
+  padding: 10px 0;
+}
+
+.agd-kw-item.is-writing .agd-kw-acts {
+  visibility: hidden;
+}
+
+.agd-kw-guide {
+  min-width: 0;
+  padding: 12px 14px;
+  border-left: 1px solid var(--kw-line-soft);
+  background: #fbfcfe;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.agd-kw-item.is-writing .agd-kw-guide > * {
+  visibility: hidden;
+}
+
+.agd-kw-item.is-written .agd-kw-guide > * {
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-kw-guide.is-focus {
+  background: #f2f8ff;
+  box-shadow: inset 0 0 0 2px #9cc9f2;
+}
+
+.agd-kw-guidehead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--kw-primary-dark);
+}
+
+.agd-kw-ai {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--kw-primary);
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.agd-kw-guidedesc {
+  margin-top: 7px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #333;
+  word-break: keep-all;
+}
+
+.agd-kw-guideref {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #6b7280;
+  word-break: keep-all;
+  transition: background 0.2s, color 0.2s;
+}
+
+.agd-kw-guide.is-focus .agd-kw-guideref {
+  background: #fff1b8;
+  color: #5b4300;
+}
+
+/* ---------------------------------------------------------------- 미리보기 덮개 */
+.agd-kw-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.4);
+  animation: adFade 0.2s ease-out both;
+}
+
+.agd-kw-dialog {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  max-height: 560px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 18px 40px -12px rgba(15, 20, 40, 0.45);
+  overflow: hidden;
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-kw-dhead {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--kw-line);
+}
+
+.agd-kw-dtitle {
+  margin-right: 4px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #111;
+  white-space: nowrap;
+}
+
+.agd-kw .agd-kw-dclose {
+  margin-left: auto;
+  color: #555;
+}
+
+.agd-kw .agd-kw-dclose svg {
+  width: 16px;
+  height: 16px;
+}
+
+.agd-kw-dbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 12px 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-kw-paper {
+  padding: 18px 26px 24px;
+  border: 1px solid #d6dbe1;
+}
+
+.agd-kw-doctitle {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  color: #111;
+}
+
+.agd-kw-docmeta {
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+.agd-kw-docmeta strong {
+  font-weight: 800;
+  color: var(--kw-primary-dark);
+}
+
+.agd-kw-dochead {
+  margin-top: 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--kw-navy);
+}
+
+.agd-kw-docsub {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #222;
+}
+
+.agd-kw-docsec {
+  margin-top: 14px;
+}
+
+.agd-kw-doclabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: #222;
+}
+
+.agd-kw-docquote {
+  margin-top: 6px;
+  padding: 2px 0 2px 10px;
+  border-left: 2px solid #d0d5dc;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #222;
+  word-break: keep-all;
+}
+
+.agd-kw-dfoot {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  padding: 9px;
+  border-top: 1px solid var(--kw-line-soft);
+  background: #f6f7f8;
+}
+
+.agd-kw-dfoot .agd-kw-btn {
+  height: 30px;
+  padding: 0 22px;
+  font-size: 12.5px;
+}
+
+/* ---------------------------------------------------------------- 앱 창 폭별 */
+.agent-demo[data-size='md'] .agd-kw-menu {
+  flex-basis: 108px;
+}
+
+.agent-demo[data-size='md'] .agd-kw-itembody {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 40%);
+}
+
+.agent-demo[data-size='md'] .agd-kw-table {
+  grid-template-columns: 92px minmax(0, 1fr) 92px minmax(0, 1fr);
+}
+
+/* sm — 메뉴를 숨기고, 표는 2칸 · 가이드는 초안 아래로 */
+.agent-demo[data-size='sm'] .agd-kw-top {
+  height: 30px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-menu {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-title {
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-band {
+  margin: 8px 10px 0;
+  padding: 7px 8px;
+  gap: 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-input {
+  flex: 1 1 auto;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-btn.is-run {
+  padding: 0 9px;
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-fixed {
+  padding: 0 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-sec {
+  margin: 8px 0 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-step {
+  gap: 5px;
+  height: 36px;
+  padding: 0 6px;
+  font-size: 11.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-stepmark {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-step.is-done .agd-kw-num {
+  background: #16a34a;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-btn.is-preview {
+  margin: 0 4px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-btn.is-preview > span:last-child {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-body {
+  padding: 8px 10px 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-table {
+  grid-template-columns: 84px minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-kw-td.is-wide {
+  grid-column: auto;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-itembody {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-kw-draft {
+  padding: 10px 12px 0;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-guide {
+  padding: 10px 12px;
+  border-top: 1px solid var(--kw-line-soft);
+  border-left: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-modal {
+  padding: 8px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-dhead {
+  flex-wrap: wrap;
+  padding: 9px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-dtitle {
+  font-size: 13px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-paper {
+  padding: 14px 12px 18px;
+}

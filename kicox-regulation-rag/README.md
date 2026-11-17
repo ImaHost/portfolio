@@ -10,6 +10,8 @@
 
 공단 직원이 "출장 가면 일비 얼마예요?" 같은 질문을 하면, 게시된 사내 규정에서 근거 조항을 찾아 답하고, 규정에 계산식이 있으면 값을 물어 계산까지 해 주는 서비스입니다.
 
+> ▶ 시연: [규정 검색](https://imahost.github.io/portfolio/demo/#regulation-search) · [규정 자료 관리](https://imahost.github.io/portfolio/demo/#regulation-admin) — 실제 화면을 재구성한 시연이 브라우저에서 재생됩니다.
+
 ---
 
 ## 1. 화면

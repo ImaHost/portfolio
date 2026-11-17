@@ -7,6 +7,8 @@
 | 역할 | 프론트엔드 개발 — 포털 전반의 화면 구현(커밋 366건), Lighthouse 서버 일부 |
 | 스택 | React 18 · TypeScript · Next.js 14 · MUI · ApexCharts · Keycloak(OIDC) · Node.js(Lighthouse 서버) · Docker · Kubernetes 배포 |
 
+> ▶ [시연 보기](https://imahost.github.io/portfolio/demo/#txhub-portal) — 성능 테스트 흐름(시나리오 → 플랜 → 스케줄 → 결과 → 대시보드)을 재구성한 시연이 브라우저에서 재생됩니다.
+
 ---
 
 ## 1. 화면

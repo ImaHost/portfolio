@@ -1,0 +1,173 @@
+/*
+ * 포트폴리오 단독 페이지 전용 스타일.
+ * assets/ 아래 시연 CSS · JS는 원본 그대로 두고, 원래 사이트가 깔아 두던 전제만 여기서 채우거나 덮어쓴다.
+ *  1) 사이트 공통 리셋의 최소분
+ *  2) 고정 헤더(133px)가 없으므로 앱 창 높이식에서 133px를 뺀다
+ *  3) 플로팅 버튼이 없으므로 넓은 화면의 영역 확장을 좌우 대칭으로
+ */
+
+/* ---------------------------------------------------------------- 1) 공통 리셋 최소분 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: #fff;
+  color: #1f243b;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1279px) {
+  .inner {
+    padding: 0 20px;
+  }
+}
+
+/* ---------------------------------------------------------------- 페이지 머리 · 꼬리 */
+.pf-top {
+  border-bottom: 1px solid #eceef3;
+}
+
+.pf-top .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 56px;
+}
+
+.pf-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5068;
+}
+
+.pf-link:hover {
+  color: #0042ff;
+}
+
+.pf-link:focus-visible {
+  outline: 2px solid #0042ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.pf-demo {
+  padding: 44px 0 72px;
+}
+
+.pf-head {
+  text-align: center;
+  word-break: keep-all;
+}
+
+.pf-head h1 {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #000;
+}
+
+.pf-head p {
+  max-width: 860px;
+  margin: 14px auto 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #333435;
+}
+
+.pf-head .pf-hint {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #6b7086;
+}
+
+.pf-foot {
+  padding: 24px 0 40px;
+  border-top: 1px solid #eceef3;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .pf-demo {
+    padding: 32px 0 56px;
+  }
+
+  .pf-head h1 {
+    font-size: 24px;
+  }
+
+  .pf-head p {
+    font-size: 15px;
+  }
+
+  .pf-head .pf-hint {
+    font-size: 14px;
+  }
+}
+
+/* ---------------------------------------------------------------- 2) 앱 창 높이 — 고정 헤더 133px 몫을 돌려준다
+   원본 순서(기본 → md → 왼쪽 목록 → 왼쪽 목록 md)와 같은 순서 · 같은 선택자로 덮어쓴다 */
+.agd-stage {
+  height: clamp(480px, calc(100vh - 251px), 620px);
+}
+
+.agent-demo[data-size='md'] .agd-stage {
+  height: clamp(480px, calc(100vh - 251px), 600px);
+}
+
+.agent-demo[data-layout='side'] .agd-side {
+  max-height: calc(clamp(480px, calc(100vh - 151px), 620px) + 130px);
+}
+
+.agent-demo[data-layout='side'] .agd-stage {
+  height: clamp(480px, calc(100vh - 151px), 620px);
+}
+
+.agent-demo[data-layout='side'][data-size='md'] .agd-stage {
+  height: clamp(480px, calc(100vh - 177px), 600px);
+}
+
+/* ---------------------------------------------------------------- 3) 넓은 화면 영역 확장 — 좌우 대칭(화면 양옆 20px 이상 남김) */
+@media (min-width: 1280px) {
+  .agent-demo {
+    --agd-r: min(100px, calc(50vw - 620px));
+    --agd-l: var(--agd-r);
+  }
+}

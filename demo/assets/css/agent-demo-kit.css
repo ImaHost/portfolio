@@ -1,0 +1,464 @@
+/*
+ * 구축 사례 시연 — 새 렌더러 공용 키트 (설계 0002 §4-2)
+ * 렌더러 루트에 .agd-k 를 붙이면 토큰(--k-*)과 부품(agd-k-*)을 쓸 수 있다.
+ * 원본 화면 디자인 토큰을 옮겼다. 키프레임(adRise · adFade · adSpin · adBlink · adPulse · adSlide)은 agent-demo.css에 있다.
+ * 전역 * 리셋은 agent-demo.css의 .agent-demo * 리셋을 상속한다.
+ */
+
+/* ---------------------------------------------------------------- 토큰 · 바탕 */
+.agd-k {
+  --k-primary: #0070b0;
+  --k-p50: #e9f4fa;
+  --k-p100: #c9e4f1;
+  --k-p600: #005d93;
+  --k-p700: #00456e;
+  --k-bg: #f3f3f9;
+  --k-surface: #fff;
+  --k-alt: #f7f8fb;
+  --k-border: #eaecf3;
+  --k-border-strong: #d9dce6;
+  --k-text: #1f243b;
+  --k-muted: #6c727f;
+  --k-subtle: #80869a;
+  --k-grid: #eef0f5;
+  --k-info: #3aa6ff;
+  --k-info-50: #e3f2ff;
+  --k-info-fg: #1668a8;
+  --k-info-bd: #b9def8;
+  --k-warning: #f59e0b;
+  --k-warning-50: #fef4e3;
+  --k-warning-fg: #946200;
+  --k-warning-bd: #f3d59a;
+  --k-success: #22c55e;
+  --k-success-50: #e9faf0;
+  --k-success-fg: #15803d;
+  --k-success-bd: #bbe9cd;
+  --k-danger: #ef4444;
+  --k-danger-50: #fde8e8;
+  --k-danger-fg: #b42121;
+  --k-danger-bd: #f4caca;
+  --k-shadow: 0 1px 3px rgba(20, 27, 52, 0.06), 0 1px 2px rgba(20, 27, 52, 0.04);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background: var(--k-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--k-text);
+  letter-spacing: -0.01em;
+}
+
+.agd-k strong {
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- 아이콘 */
+.agd-k .agd-k-ico {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.agd-k .agd-k-ico svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------------------------------------------------------------- 왼쪽 앱 메뉴(규정 검색 화면과 같은 모양) */
+.agd-k-nav {
+  padding: 14px 10px;
+  border-right: 1px solid var(--k-border);
+  background: var(--k-surface);
+}
+
+.agd-k-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px 16px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.agd-k .agd-k-logo {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--k-primary);
+  color: #fff;
+}
+
+.agd-k-menu li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 36px;
+  margin-bottom: 2px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--k-muted);
+}
+
+.agd-k-menu li.is-active {
+  background: var(--k-p50);
+  color: var(--k-primary);
+}
+
+.agd-k .agd-k-menu .agd-k-ico svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------------------------------------------------------------- 카드 · 패널 머리 */
+.agd-k-card {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 10px;
+  background: var(--k-surface);
+  box-shadow: var(--k-shadow);
+}
+
+.agd-k-panelhead {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--k-border);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 번호 점(1 · 2 …) */
+.agd-k-dot {
+  display: inline-flex;
+  flex: 0 0 22px;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--k-primary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- 버튼 */
+.agd-k-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 8px;
+  background: var(--k-surface);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-text);
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s;
+}
+
+.agd-k-btn.is-xs {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.agd-k-btn.is-primary {
+  border-color: var(--k-primary);
+  background: var(--k-primary);
+  font-weight: 700;
+  color: #fff;
+}
+
+.agd-k-btn.is-outline {
+  border-color: var(--k-p100);
+  background: var(--k-p50);
+  color: var(--k-p700);
+}
+
+.agd-k-btn.is-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--k-muted);
+}
+
+.agd-k-btn.is-disabled {
+  opacity: 0.45;
+}
+
+.agd-k-btn.is-pressed {
+  transform: scale(0.95);
+}
+
+.agd-k .agd-k-btn .agd-k-ico svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ---------------------------------------------------------------- 태그 · 필 · 칩 */
+.agd-k-tag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding: 0 6px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 4px;
+  background: var(--k-alt);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-k-pill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 9px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 999px;
+  background: var(--k-alt);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-k-chip {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 11px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 999px;
+  background: var(--k-surface);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.agd-k-chip.is-pressed {
+  border-color: var(--k-primary);
+  background: var(--k-p50);
+  transform: scale(0.96);
+}
+
+/* 톤 — 태그 · 필 · 칩 · 알림 공통 */
+.agd-k-tag.is-primary,
+.agd-k-pill.is-primary {
+  border-color: var(--k-p100);
+  background: var(--k-p50);
+  color: var(--k-p700);
+}
+
+.agd-k-tag.is-info,
+.agd-k-pill.is-info,
+.agd-k-chip.is-info {
+  border-color: var(--k-info-bd);
+  background: var(--k-info-50);
+  color: var(--k-info-fg);
+}
+
+.agd-k-tag.is-warning,
+.agd-k-pill.is-warning,
+.agd-k-chip.is-warning {
+  border-color: var(--k-warning-bd);
+  background: var(--k-warning-50);
+  color: var(--k-warning-fg);
+}
+
+.agd-k-tag.is-success,
+.agd-k-pill.is-success,
+.agd-k-chip.is-success {
+  border-color: var(--k-success-bd);
+  background: var(--k-success-50);
+  color: var(--k-success-fg);
+}
+
+.agd-k-tag.is-danger,
+.agd-k-pill.is-danger {
+  border-color: var(--k-danger-bd);
+  background: var(--k-danger-50);
+  color: var(--k-danger-fg);
+}
+
+/* ---------------------------------------------------------------- 알림 상자 */
+.agd-k-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-alt);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--k-muted);
+}
+
+.agd-k-notice.is-info {
+  border-color: var(--k-info-bd);
+  background: var(--k-info-50);
+  color: var(--k-info-fg);
+}
+
+.agd-k-notice.is-warning {
+  border-color: var(--k-warning-bd);
+  background: var(--k-warning-50);
+  color: var(--k-warning-fg);
+}
+
+.agd-k-notice.is-success {
+  border-color: var(--k-success-bd);
+  background: var(--k-success-50);
+  color: var(--k-success-fg);
+}
+
+/* ---------------------------------------------------------------- 탭 */
+.agd-k-tabs {
+  display: flex;
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--k-border);
+}
+
+.agd-k-tab {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-muted);
+  box-shadow: inset 0 -2px 0 transparent;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+
+.agd-k-tab.is-active {
+  font-weight: 700;
+  color: var(--k-p700);
+  box-shadow: inset 0 -2px 0 var(--k-primary);
+}
+
+.agd-k-tab-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+.agd-k-tab.is-pressed {
+  background: var(--k-alt);
+}
+
+/* ---------------------------------------------------------------- 스피너 */
+.agd-k-spin {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--k-p100);
+  border-top-color: var(--k-primary);
+  border-radius: 50%;
+  animation: adSpin 0.8s linear infinite;
+}
+
+/* ---------------------------------------------------------------- 토스트(AgentDemo.util.toast) */
+.agd-k-toast {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 40px);
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1f243b;
+  box-shadow: 0 10px 30px -8px rgba(15, 20, 40, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: #fff;
+  transform: translateX(-50%);
+  animation: agdToastIn 0.28s ease-out both;
+  transition: opacity 0.25s;
+}
+
+.agd-k-toast.is-out {
+  opacity: 0;
+}
+
+/* 좁은 화면: 긴 알림은 줄바꿈해 토스트 밖으로 넘치지 않게(설계 0003 구현 중 발견) */
+.agent-demo[data-size='sm'] .agd-k-toast {
+  width: max-content;
+  max-width: calc(100% - 32px);
+  white-space: normal;
+}
+
+.agd-k-toast .agd-k-ico svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-k-toast.is-success .agd-k-toast-ico {
+  color: #4ade80;
+}
+
+.agd-k-toast.is-info .agd-k-toast-ico {
+  color: #7cc4ff;
+}
+
+.agd-k-toast.is-warning .agd-k-toast-ico {
+  color: #fbbf24;
+}
+
+@keyframes agdToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ---------------------------------------------------------------- 멈춤 — 반복 표시만 멈춘다(등장 애니메이션은 그대로)
+   렌더러가 더 높은 명시도의 animation 축약형을 써도 멈추도록 !important */
+.agent-demo.is-paused .agd-k-spin,
+.agent-demo.is-paused .agd-k-loop,
+.agent-demo.is-paused .agd-k-loop::before,
+.agent-demo.is-paused .agd-k-loop::after {
+  animation-play-state: paused !important;
+}

@@ -1,0 +1,2124 @@
+/*
+ * 구축 사례 시연 (설계 0001)
+ * 스코프: .agent-demo (섹션 제목 .sec_tit은 기존 솔루션 섹션 스타일 그대로). 클래스 접두어 agd- · 키프레임 접두어 ad.
+ * common.css의 전역 * 리셋(line-height:1em · color:#000 · font-weight:normal)을 스코프 안에서 되돌린다.
+ * 배치는 뷰포트가 아니라 영역 폭(data-size = lg ≥1000 · md 700~999 · sm <700, 엔진이 붙임)으로 바꾼다.
+ */
+
+/* ---------------------------------------------------------------- 리셋 (맨 앞 — 아래 규칙이 이긴다) */
+.agent-demo *,
+.agent-demo *::before,
+.agent-demo *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+/* ---------------------------------------------------------------- 섹션
+   섹션 위 여백(90px)은 기존 style.css의 section:not(.sec_intro, .main_top) 규칙을 그대로 받는다 */
+.agent-demo {
+  margin-top: 36px;
+  line-height: 1.5;
+  color: #1f243b;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.agent-demo strong {
+  font-weight: 700;
+}
+
+.agent-demo .agd-fallback {
+  padding: 40px 20px;
+  border: 1px solid #e3e5ec;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 15px;
+  color: #5b5f6b;
+}
+
+.agent-demo.is-ready .agd-fallback,
+.agent-demo:not(.is-ready) .agd-panel,
+.agent-demo:not(.is-ready) .agd-projects,
+.agent-demo:not(.is-ready) .agd-pinfo,
+.agent-demo:not(.is-ready) .agd-tabs {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- 탭 — 1단 프로젝트 · 2단 서비스(설계 0002 §3-5) */
+.agd-projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.agd-ptab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 22px;
+  border: 1px solid #d5d8e0;
+  border-radius: 46px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333435;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.agd-ptab:hover {
+  border-color: #111;
+}
+
+.agd-ptab-client {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c727f; /* 흰 배경 대비 4.5:1 이상 */
+}
+
+.agd-ptab-client + .agd-ptab-name {
+  padding-left: 10px;
+  border-left: 1px solid #d5d8e0;
+}
+
+.agd-ptab[aria-selected='true'] {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.agd-ptab[aria-selected='true'] .agd-ptab-client {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.agd-ptab[aria-selected='true'] .agd-ptab-client + .agd-ptab-name {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.agd-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 30px;
+  margin-top: 18px;
+  border-bottom: 1px solid #e3e5ec;
+}
+
+.agd-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 4px 12px;
+  border: 0;
+  background: none;
+  font-size: 17px;
+  font-weight: 700;
+  color: #6c727f;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: inset 0 -3px 0 transparent;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+
+.agd-tab:hover {
+  color: #0042ff;
+}
+
+.agd-tab[aria-selected='true'] {
+  color: #0042ff;
+  box-shadow: inset 0 -3px 0 #0042ff;
+}
+
+/* 사례가 없으면 탭 줄을 숨긴다(서비스가 1개여도 2단은 보인다 · I-034) */
+.agd-projects.is-hidden,
+.agd-tabs.is-hidden {
+  display: none;
+}
+
+/* 장 없는 사례: 다른 사례에 장이 있으면 시연 순서 자리는 남긴다(I-033) */
+.agd-chapters.is-ghost {
+  visibility: hidden;
+}
+
+.agd-ptab:focus-visible,
+.agd-tab:focus-visible,
+.agd-btn:focus-visible {
+  outline: 2px solid #0042ff;
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------- 프로젝트 소개(설계 0002 §3-6) — 플레이어 위(설계 0004) */
+.agd-pinfo {
+  display: grid;
+  max-width: 900px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+/* 프로젝트마다 소개를 같은 칸에 겹친다 — 지금 것만 보이고 높이는 가장 긴 것(I-028) */
+.agd-pinfo-item {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+.agd-pinfo-item.is-active {
+  visibility: visible;
+}
+
+.agd-pinfo-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #333435;
+  word-break: keep-all;
+}
+
+.agd-pinfo-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.agd-pinfo-badges li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid #d5d8e0;
+  border-radius: 28px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333435;
+}
+
+.agd-pinfo-badges li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0042ff;
+}
+
+/* ---------------------------------------------------------------- 서비스 설명 */
+.agd-info {
+  display: grid;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+/* 설명 묶음 — 앱 창 아래, 페이지 폭(1200)에 맞춘다(설계 0004 §3-1) */
+.agd-about {
+  max-width: 1200px;
+  margin: 44px auto 0;
+  padding-top: 8px;
+}
+
+/* 넓은 화면: 왼쪽 목록이 가로 폭을 가져가므로 영역을 페이지 폭(1200)보다 넓히되 페이지 가운데에 맞춘다.
+   --agd-r 오른쪽으로 넓힐 폭: 오른쪽 끝을 플로팅 버튼(.quick — 보이는 왼쪽 끝이 화면 오른쪽에서 88px)보다
+           12px 안쪽에서 멈춘다(최대 100px · 좁으면 음수 = 안쪽으로 당김)
+   --agd-l 왼쪽으로 넓힐 폭: 기본은 --agd-r과 같게(가운데). 앱 창이 lg(1000px = 영역 1246px)에 못 미치면
+           왼쪽으로 더 넓힌다(화면 왼쪽 20px 남김) → 1440 미만에서만 최대 40px 비킨다
+   플레이어 밖 글(소개 · 설명)은 비킨 만큼 되돌려 섹션 제목과 같은 페이지 가운데에 둔다.
+   화면 덮기(fixed)를 깨지 않게 transform 없이 음수 여백으로 */
+@media (min-width: 1280px) {
+  .agent-demo {
+    --agd-r: clamp(-60px, calc(50vw - 700px), 100px);
+    --agd-l: min(calc(50vw - 620px), max(var(--agd-r), calc(46px - var(--agd-r))));
+    width: calc(100% + var(--agd-l) + var(--agd-r));
+    margin-left: calc(-1 * var(--agd-l));
+  }
+
+  .agent-demo .agd-pinfo,
+  .agent-demo .agd-about {
+    position: relative;
+    left: calc((var(--agd-l) - var(--agd-r)) / 2);
+  }
+}
+
+/* 사례마다 설명을 같은 칸에 겹친다 — 지금 것만 보이고 높이는 가장 긴 것(I-028) */
+.agd-info-item {
+  display: flex;
+  grid-area: 1 / 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  visibility: hidden;
+}
+
+.agd-info-item.is-active {
+  visibility: visible;
+}
+
+.agd-summary {
+  max-width: 860px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #333435;
+  word-break: keep-all;
+}
+
+/* 업무 과제 · AI 에이전트의 해결 | 핵심 기능 */
+.agd-brief {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.agd-brief-text,
+.agd-features {
+  padding: 22px 24px;
+  border-radius: 20px;
+  background: #f5f5f7;
+}
+
+.agd-brief-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  color: #0042ff;
+}
+
+.agd-brief-problem,
+.agd-brief-solution {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333435;
+  word-break: keep-all;
+}
+
+.agd-brief-solution {
+  font-weight: 700;
+  color: #111;
+}
+
+.agd-brief-item + .agd-brief-item {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e3e5ec;
+}
+
+.agd-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.agd-feature {
+  position: relative;
+  padding-left: 28px;
+}
+
+.agd-feature::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0042ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+}
+
+.agd-feature-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #111;
+}
+
+.agd-feature-desc {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5b5f6b;
+  word-break: keep-all;
+}
+
+.agd-pinfo.is-hidden,
+.agd-points.is-hidden,
+.agd-brief.is-hidden,
+.agd-brief-text.is-hidden,
+.agd-brief-item.is-hidden,
+.agd-features.is-hidden,
+.agd-chapters.is-hidden {
+  display: none;
+}
+
+.agd-points {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.agd-points li {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 30px;
+  background: #f5f5f7;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #0042ff;
+}
+
+.agd-points li::before {
+  content: '#';
+  margin-right: 2px;
+  opacity: 0.6;
+}
+
+/* ---------------------------------------------------------------- 창(스테이지) */
+.agd-stage {
+  position: relative;
+  isolation: isolate; /* 커서(z-index 5)가 고정된 sub_header(z-index 1) 위로 나오지 않게 쌓임 맥락을 가둔다 */
+  display: flex;
+  flex-direction: column;
+  /* 화면 높이에 맞춘다 — 탭 · 앱 창 · 아래 막대가 한 화면에(설계 0004 §3-1).
+     384px = 고정 헤더 133 + 탭 약 121 + 아래 막대 약 114 + 여유 16 */
+  height: clamp(480px, calc(100vh - 384px), 620px);
+  overflow: hidden;
+  border: 1px solid #e3e5ec;
+  border-radius: 16px;
+  background: #f3f3f9;
+  box-shadow: 0 24px 60px -24px rgba(17, 24, 39, 0.28), 0 2px 6px rgba(17, 24, 39, 0.06);
+}
+
+.agd-window-bar {
+  position: relative;
+  display: flex;
+  flex: 0 0 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 80px;
+  border-bottom: 1px solid #eaecf3;
+  background: #fff;
+}
+
+.agd-window-dots {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  display: flex;
+  gap: 7px;
+  transform: translateY(-50%);
+}
+
+.agd-window-dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.agd-window-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.agd-window-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.agd-window-title {
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6c727f;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 가짜 앱 화면 — 장식이라 클릭 · 선택을 받지 않는다(휠은 페이지로 그대로 간다) */
+.agd-screen {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------- 커서 */
+.agd-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 22px;
+  height: 22px;
+  margin: -2px 0 0 -3px; /* 화살표 끝(3,2)을 좌표에 맞춘다 */
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+  transition: transform 0.7s cubic-bezier(0.45, 0.05, 0.25, 1), opacity 0.25s;
+}
+
+.agd-cursor svg {
+  display: block;
+}
+
+.agd-cursor.is-on {
+  opacity: 1;
+}
+
+.agd-cursor.is-jump {
+  transition: none;
+}
+
+.agd-cursor::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -9px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 66, 255, 0.35);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.agd-cursor.is-click::after {
+  animation: adClick 0.45s ease-out;
+}
+
+/* ---------------------------------------------------------------- 시연 순서 · 자막(설계 0002 §3-6) */
+/* 아래 막대 — 1줄: 장 막대 · 제목 / 2줄: 자막 + 컨트롤(설계 0004 §3-1) */
+.agd-panel {
+  margin-top: 16px;
+}
+
+.agd-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 14px;
+}
+
+.agd-chapters {
+  display: contents;
+}
+
+.agd-chapter-list {
+  grid-column: 1 / -1;
+}
+
+.agd-chapter-now {
+  grid-column: 1;
+}
+
+.agd-bar .agd-controls {
+  grid-column: 2;
+  margin-top: 0;
+}
+
+/* 시연 순서가 없는 사례: 컨트롤(전체 진행 막대 포함)이 한 줄을 다 쓴다 */
+.agent-demo:not(.has-chapters) .agd-bar .agd-controls {
+  grid-column: 1 / -1;
+}
+
+.agd-chapter-list {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 10px;
+}
+
+.agd-ch {
+  min-width: 0;
+}
+
+.agd-ch-bar {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e6e8ef;
+}
+
+.agd-ch-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #0042ff;
+  transition: width 0.4s linear;
+}
+
+.agd-ch-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #6c727f; /* 흰 배경 대비 4.5:1 이상 */
+  transition: color 0.2s;
+}
+
+.agd-ch-no {
+  display: inline-flex;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  border: 1.5px solid #c9ccd6;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.agd-ch[data-state='current'] .agd-ch-title,
+.agd-ch[data-state='done'] .agd-ch-title {
+  color: #111;
+}
+
+.agd-ch[data-state='current'] .agd-ch-no {
+  border-color: #0042ff;
+  background: #0042ff;
+  color: #fff;
+}
+
+.agd-ch[data-state='done'] .agd-ch-no {
+  border-color: #0042ff;
+  color: #0042ff;
+}
+
+/* 지금 장면 자막 — 지금 줄과 모든 장 자막(크기 잡이)을 같은 칸에 겹쳐 높이를 고정한다(I-028) */
+.agd-chapter-now {
+  display: grid;
+  min-height: 52px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #111;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #fff;
+  word-break: keep-all;
+}
+
+.agd-ch-line {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: 1 / 1;
+  align-items: baseline;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.agd-ch-sizer {
+  visibility: hidden;
+}
+
+.agd-ch-step {
+  font-size: 12px;
+  font-weight: 800;
+  color: #7fa2ff;
+}
+
+.agd-ch-now-title {
+  font-weight: 800;
+  color: #fff;
+}
+
+.agd-ch-caption {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* 시연 순서가 있으면 장 막대가 진행을 보여 주므로 컨트롤 줄의 전체 막대는 숨긴다 */
+/* 시연 순서가 있으면 전체 진행 막대는 자리도 차지하지 않는다(버튼 끝 = 앱 창 오른쪽 끝 · I-045) */
+.agent-demo.has-chapters .agd-progress {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- 컨트롤 */
+.agd-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.agd-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #d5d8e0;
+  border-radius: 36px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333435;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.agd-btn:hover {
+  border-color: #0042ff;
+  color: #0042ff;
+}
+
+.agd-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.agd-btn[data-state='playing'] .agd-ico-play,
+.agd-btn[data-state='paused'] .agd-ico-pause {
+  display: none;
+}
+
+.agd-progress {
+  flex: 1 1 auto;
+  height: 4px;
+  margin-left: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e6e8ef;
+}
+
+.agd-progress-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #0042ff;
+  transition: width 0.4s linear;
+}
+
+.agd-progress-bar.is-reset {
+  transition: none;
+}
+
+.agent-demo .agd-caption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6c727f; /* 흰 배경 대비 4.5:1 이상 */
+  text-align: right;
+  word-break: keep-all;
+}
+
+/* ================================================================ 화면 유형 rag-chat
+   원본 규정질의응답 화면의 색 · 간격을 옮겼다 */
+.agd-rc {
+  --rc-primary: #0070b0;
+  --rc-p50: #e9f4fa;
+  --rc-p100: #c9e4f1;
+  --rc-p700: #00456e;
+  --rc-bg: #f3f3f9;
+  --rc-surface: #fff;
+  --rc-alt: #f7f8fb;
+  --rc-border: #eaecf3;
+  --rc-border-strong: #d9dce6;
+  --rc-text: #1f243b;
+  --rc-muted: #6c727f;
+  --rc-subtle: #80869a;
+  --rc-shadow: 0 1px 3px rgba(20, 27, 52, 0.06), 0 1px 2px rgba(20, 27, 52, 0.04);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 172px minmax(0, 1fr);
+  background: var(--rc-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--rc-text);
+  letter-spacing: -0.01em;
+}
+
+.agd-rc .agd-ico {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.agd-rc .agd-ico svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* 메뉴 */
+.agd-rc-nav {
+  padding: 14px 10px;
+  border-right: 1px solid var(--rc-border);
+  background: var(--rc-surface);
+}
+
+.agd-rc-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px 16px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.agd-rc .agd-rc-logo {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--rc-primary);
+  color: #fff;
+}
+
+.agd-rc .agd-rc-logo svg {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-rc-menu li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 36px;
+  margin-bottom: 2px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rc-muted);
+}
+
+.agd-rc-menu li.is-active {
+  background: var(--rc-p50);
+  color: var(--rc-primary);
+}
+
+/* 본문 */
+.agd-rc-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  padding: 14px 16px 16px;
+}
+
+.agd-rc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.agd-rc-headtext {
+  min-width: 0;
+}
+
+.agd-rc-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.agd-rc-desc {
+  margin-top: 3px;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--rc-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-rc-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 8px;
+  background: var(--rc-surface);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.agd-rc .agd-rc-btn .agd-ico svg {
+  width: 13px;
+  height: 13px;
+}
+
+.agd-rc-btn.is-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--rc-muted);
+}
+
+.agd-rc-body {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  column-gap: 12px;
+  min-height: 0;
+  /* 열 너비는 전환(transition)하지 않는다 — 그리드 트랙 전환이 시작값에 멈추는 경우가 있어
+     근거 패널이 0px로 남았다. 패널은 아래 adSlide 애니메이션으로 들어온다 */
+}
+
+/* 첫 질문 전에는 근거 패널을 두지 않는다(원본 data-solo) */
+.agd-rc-body[data-solo] {
+  grid-template-columns: minmax(0, 1fr) 0px;
+  column-gap: 0;
+}
+
+.agd-rc-card {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 10px;
+  background: var(--rc-surface);
+  box-shadow: var(--rc-shadow);
+}
+
+.agd-rc-chat {
+  display: flex;
+  flex-direction: column;
+}
+
+.agd-rc-msgs {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 18px 22px 12px;
+}
+
+/* 시작 화면 */
+.agd-rc-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px 0 8px;
+  text-align: center;
+}
+
+.agd-rc-heroicon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--rc-p50);
+  color: var(--rc-primary);
+}
+
+.agd-rc .agd-rc-heroicon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.agd-rc-herotitle {
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.agd-rc-herodesc {
+  margin-top: 6px;
+  color: var(--rc-muted);
+}
+
+.agd-rc-herosub {
+  margin-top: 22px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rc-subtle);
+}
+
+.agd-rc-examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 620px;
+  margin-top: 10px;
+}
+
+.agd-rc-example {
+  padding: 11px 14px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 10px;
+  background: var(--rc-surface);
+  font-size: 12.5px;
+  text-align: left;
+  word-break: keep-all;
+  animation: adRise 0.4s ease-out both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.agd-rc-example.is-pressed {
+  border-color: var(--rc-primary);
+  background: var(--rc-p50);
+  transform: scale(0.98);
+}
+
+/* 차례(질문 + 답) */
+.agd-rc-turns {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.agd-rc-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: adRise 0.3s ease-out both;
+}
+
+.agd-rc-q {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  align-self: flex-end;
+  gap: 8px;
+  max-width: 88%;
+}
+
+.agd-rc-qavatar {
+  display: flex;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 50%;
+  background: #e3e6ee;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4b5163;
+}
+
+.agd-rc-qbubble {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  min-width: 0;
+}
+
+.agd-rc-qtext {
+  padding: 9px 14px;
+  border-radius: 12px 4px 12px 12px;
+  background: var(--rc-p50);
+  font-weight: 600;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.agd-rc-qtime {
+  padding: 0 4px;
+  font-size: 11px;
+  color: var(--rc-subtle);
+}
+
+.agd-rc-a {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px 12px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 4px 12px 12px 12px;
+  background: var(--rc-surface);
+  box-shadow: var(--rc-shadow);
+}
+
+.agd-rc-ahead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agd-rc-aavatar {
+  display: flex;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--rc-primary);
+  color: #fff;
+}
+
+.agd-rc .agd-rc-aavatar svg {
+  width: 13px;
+  height: 13px;
+}
+
+.agd-rc-aname {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--rc-p700);
+}
+
+.agd-rc-writing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--rc-muted);
+}
+
+.agd-rc-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.agd-rc-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--rc-primary);
+  animation: adDot 1.2s ease-in-out infinite;
+}
+
+.agd-rc-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.agd-rc-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.agd-rc-atime {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--rc-subtle);
+}
+
+/* 처리 과정 — 진행 중 펼침 · 끝나면 한 줄(원본 Thinking) */
+.agd-rc-think {
+  border: 1px solid var(--rc-border);
+  border-radius: 10px;
+  background: var(--rc-alt);
+}
+
+.agd-rc-thinkhead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rc-muted);
+}
+
+.agd-rc .agd-rc-thinkicon {
+  color: var(--rc-primary);
+}
+
+.agd-rc .agd-rc-thinkicon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-rc-think:not([data-state='DONE']) .agd-rc-thinkicon {
+  animation: adPulse 1.2s ease-in-out infinite;
+}
+
+.agd-rc .agd-rc-chev {
+  margin-left: auto;
+  transition: transform 0.25s;
+}
+
+.agd-rc .agd-rc-chev svg {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-rc-think[data-open] .agd-rc-chev {
+  transform: rotate(180deg);
+}
+
+.agd-rc-stepswrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.agd-rc-think[data-open] .agd-rc-stepswrap {
+  grid-template-rows: 1fr;
+}
+
+.agd-rc-stepsclip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.agd-rc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 0 12px 10px;
+}
+
+.agd-rc-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-rc-stepicon {
+  display: flex;
+  flex: 0 0 16px;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  margin-top: 1px;
+  border: 2px solid var(--rc-p100);
+  border-top-color: var(--rc-primary);
+  border-radius: 50%;
+  animation: adSpin 0.8s linear infinite;
+}
+
+.agd-rc-step[data-s='done'] .agd-rc-stepicon {
+  border: 0;
+  background: var(--rc-primary);
+  color: #fff;
+  animation: none;
+}
+
+.agd-rc .agd-rc-stepicon svg {
+  width: 9px;
+  height: 9px;
+}
+
+.agd-rc-steptext {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.agd-rc-steptitle {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-rc-steptime {
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--rc-subtle);
+}
+
+.agd-rc-stepdetail {
+  font-size: 11.5px;
+  color: var(--rc-muted);
+  animation: adFade 0.3s ease-out both;
+}
+
+/* 답 글(원본 .md) */
+.agd-rc-md {
+  font-size: 13px;
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.agd-rc-md p {
+  margin: 0 0 6px;
+}
+
+.agd-rc-md > p:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.agd-rc-md > :last-child {
+  margin-bottom: 0;
+}
+
+.agd-rc-md ul {
+  margin: 2px 0 6px;
+  padding-left: 18px;
+}
+
+.agd-rc-md li {
+  margin: 3px 0;
+  list-style: disc;
+}
+
+.agd-rc-md.is-caret > p:last-child::after,
+.agd-rc-md.is-caret > ul:last-child > li:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 14px;
+  margin-left: 3px;
+  border-radius: 2px;
+  background: var(--rc-primary);
+  vertical-align: -2px;
+  animation: adBlink 1s ease-in-out infinite;
+}
+
+.agd-rc-cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  margin: 0 2px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--rc-p100);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--rc-p700);
+  vertical-align: 1px;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.agd-rc-cite.is-on,
+.agd-rc-cite.is-pressed {
+  background: var(--rc-primary);
+  color: #fff;
+}
+
+/* 답에 인용한 근거 칩(원본 RefChips) */
+.agd-rc-refs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rc-border);
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-rc-refslabel {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--rc-muted);
+}
+
+.agd-rc-refgroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.agd-rc-reftitle {
+  margin-right: 2px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-rc-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px 0 3px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 999px;
+  background: var(--rc-surface);
+  font-size: 11px;
+  color: var(--rc-muted);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.agd-rc-refno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--rc-primary);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.agd-rc-ref.is-on {
+  border-color: var(--rc-primary);
+  background: var(--rc-p50);
+  color: var(--rc-p700);
+}
+
+/* 입력 상자 */
+.agd-rc-composer {
+  padding: 10px 22px 12px;
+  border-top: 1px solid var(--rc-border);
+}
+
+.agd-rc-inputbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 780px;
+  min-height: 44px;
+  margin: 0 auto;
+  padding: 7px 7px 7px 14px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 12px;
+  background: var(--rc-surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.agd-rc-inputbox.is-focus {
+  border-color: var(--rc-primary);
+  box-shadow: 0 0 0 3px rgba(0, 112, 176, 0.15);
+}
+
+.agd-rc-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-rc-input.is-empty::before {
+  content: attr(data-placeholder);
+  color: #a3a8b6;
+}
+
+.agd-rc-inputbox.is-focus .agd-rc-input::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 15px;
+  margin-left: 1px;
+  background: var(--rc-text);
+  vertical-align: -3px;
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-rc-send {
+  display: flex;
+  flex: 0 0 30px;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 8px;
+  background: #c5cbd8;
+  color: #fff;
+  transition: background-color 0.15s, transform 0.15s;
+}
+
+.agd-rc-send.is-ready {
+  background: var(--rc-primary);
+}
+
+.agd-rc-send.is-pressed {
+  transform: scale(0.88);
+}
+
+.agd-rc-hint {
+  max-width: 780px;
+  margin: 6px auto 0;
+  font-size: 11px;
+  color: var(--rc-subtle);
+}
+
+/* 근거 패널 */
+.agd-rc-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.agd-rc-body:not([data-solo]) .agd-rc-side {
+  animation: adSlide 0.4s ease-out both;
+}
+
+.agd-rc-body[data-solo] .agd-rc-side {
+  visibility: hidden;
+}
+
+.agd-rc-sidehead {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--rc-border);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.agd-rc-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--rc-p50);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rc-primary);
+}
+
+.agd-rc-count:empty {
+  display: none;
+}
+
+.agd-rc-evlist {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.agd-rc-evempty {
+  font-size: 12px;
+  color: var(--rc-subtle);
+}
+
+.agd-rc-ev {
+  flex-shrink: 0;
+  padding: 12px;
+  border: 1px solid var(--rc-border-strong);
+  border-radius: 10px;
+  background: var(--rc-surface);
+  animation: adRise 0.35s ease-out both;
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.agd-rc-ev[data-selected] {
+  border-color: var(--rc-primary);
+  background: var(--rc-p50);
+  box-shadow: 0 0 0 2px rgba(0, 112, 176, 0.18);
+}
+
+.agd-rc-evhead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agd-rc-evno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--rc-primary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.agd-rc-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 4px;
+  background: #e8f1fd;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1d5fb8;
+}
+
+.agd-rc-evtitle {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.agd-rc-evwhere {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--rc-muted);
+}
+
+.agd-rc-evbody {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--rc-alt);
+}
+
+.agd-rc-evtext {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #3a3f52;
+  white-space: pre-line;
+  word-break: keep-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.agd-rc-evactions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------- 영역 폭별 배치(§3-4) */
+.agent-demo[data-size='md'] .agd-stage {
+  height: clamp(480px, calc(100vh - 384px), 600px);
+}
+
+.agent-demo[data-size='md'] .agd-rc,
+.agent-demo[data-size='sm'] .agd-rc {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='md'] .agd-rc-nav,
+.agent-demo[data-size='sm'] .agd-rc-nav,
+.agent-demo[data-size='sm'] .agd-rc-side,
+.agent-demo[data-size='sm'] .agd-rc-desc,
+.agent-demo[data-size='sm'] .agd-rc-hint {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-rc-body {
+  grid-template-columns: minmax(0, 1fr) 250px;
+}
+
+.agent-demo[data-size='md'] .agd-rc-body[data-solo] {
+  grid-template-columns: minmax(0, 1fr) 0px;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-body,
+.agent-demo[data-size='sm'] .agd-rc-body[data-solo] {
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-stage {
+  height: 540px;
+  border-radius: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-projects,
+.agent-demo[data-size='sm'] .agd-tabs {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.agent-demo[data-size='sm'] .agd-ptab {
+  flex: 0 0 auto;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-ptab-client {
+  font-size: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-tabs {
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-tab {
+  flex: 0 0 auto;
+  font-size: 15px;
+}
+
+.agent-demo[data-size='sm'] .agd-summary {
+  font-size: 15px;
+}
+
+.agent-demo[data-size='sm'] .agd-points li {
+  font-size: 13px;
+}
+
+.agent-demo[data-size='sm'] .agd-pinfo-text {
+  font-size: 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-pinfo-badges li {
+  font-size: 12px;
+}
+
+.agent-demo[data-size='md'] .agd-brief,
+.agent-demo[data-size='sm'] .agd-brief {
+  gap: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-brief {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-brief-text,
+.agent-demo[data-size='sm'] .agd-features {
+  padding: 18px;
+  border-radius: 16px;
+}
+
+.agent-demo[data-size='sm'] .agd-brief-problem,
+.agent-demo[data-size='sm'] .agd-brief-solution,
+.agent-demo[data-size='sm'] .agd-feature-title {
+  font-size: 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-feature-desc {
+  font-size: 13px;
+}
+
+/* 좁은 화면: 장 제목은 지금 장만, 번호는 모두 */
+.agent-demo[data-size='sm'] .agd-chapter-list {
+  gap: 6px;
+}
+
+.agent-demo[data-size='sm'] .agd-ch-title {
+  font-size: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-ch-no {
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-chapter-now {
+  font-size: 14px;
+  padding: 12px 14px;
+}
+
+/* 좁은 화면: 자막과 컨트롤을 위아래로 */
+.agent-demo[data-size='sm'] .agd-bar {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-bar .agd-controls {
+  grid-column: 1;
+  flex-wrap: wrap;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-main {
+  padding: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-msgs {
+  padding: 14px 14px 8px;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-composer {
+  padding: 8px 10px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-examples {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-rc-example:nth-child(n + 4) {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-rc-a {
+  padding: 12px 14px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-window-bar {
+  padding: 0 64px;
+}
+
+.agent-demo[data-size='sm'] .agd-caption {
+  text-align: left;
+}
+
+/* ---------------------------------------------------------------- 멈춤 · 모션 줄이기 */
+/* 일시정지(사용자 · 화면 밖 · 탭 숨김) 동안 반복 표시(점 · 스피너 · 캐럿)도 멈춘다. 등장 애니메이션은 건드리지 않는다 */
+.agent-demo.is-paused .agd-rc-dots i,
+.agent-demo.is-paused .agd-rc-stepicon,
+.agent-demo.is-paused .agd-rc-thinkicon,
+.agent-demo.is-paused .agd-rc-md.is-caret p::after,
+.agent-demo.is-paused .agd-rc-md.is-caret li::after,
+.agent-demo.is-paused .agd-rc-input::after {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-demo *,
+  .agent-demo *::before,
+  .agent-demo *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------- 왼쪽 세로 목록 배치(설계 0004 §3-1 · I-038) */
+.agd-side-label {
+  display: none;
+}
+
+.agent-demo[data-layout='side'] .agd-player {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 20px;
+}
+
+.agent-demo[data-layout='side'] .agd-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  max-height: calc(clamp(480px, calc(100vh - 284px), 620px) + 130px);
+  overflow-y: auto;
+}
+
+.agent-demo[data-layout='side'] .agd-side-label {
+  display: block;
+  margin: 2px 4px 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: #6c727f;
+}
+
+.agent-demo[data-layout='side'] .agd-side-label + .agd-tabs {
+  margin-top: 0;
+}
+
+.agent-demo[data-layout='side'] .agd-projects {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.agent-demo[data-layout='side'] .agd-ptab {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+  height: auto;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+.agent-demo[data-layout='side'] .agd-ptab-client {
+  font-size: 12px;
+}
+
+.agent-demo[data-layout='side'] .agd-ptab-client + .agd-ptab-name {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.agent-demo[data-layout='side'] .agd-tabs {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 2px;
+  margin-top: 0;
+  border-bottom: 0;
+}
+
+.agent-demo[data-layout='side'] .agd-tab {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: left;
+  white-space: normal;
+  word-break: keep-all;
+  box-shadow: none;
+}
+
+.agent-demo[data-layout='side'] .agd-tab:hover {
+  background: #f5f5f7;
+}
+
+.agent-demo[data-layout='side'] .agd-tab[aria-selected='true'] {
+  background: #eef2ff;
+  color: #0042ff;
+  box-shadow: inset 3px 0 0 #0042ff;
+}
+
+.agent-demo[data-layout='side'] .agd-panel {
+  margin-top: 0;
+}
+
+/* 탭 줄이 앱 창 위에 없으므로 그만큼 더 쓴다(실측 보정):
+   lg 284 = 고정 헤더 133 + 위 여유 8 + 아래 막대 137 + 아래 여유 6
+   md 310 = 앱 창이 좁아 자막이 두 줄이 되면 아래 막대가 약 161 */
+.agent-demo[data-layout='side'] .agd-stage {
+  height: clamp(480px, calc(100vh - 284px), 620px);
+}
+
+.agent-demo[data-layout='side'][data-size='md'] .agd-stage {
+  height: clamp(480px, calc(100vh - 310px), 600px);
+}
+
+/* ---------------------------------------------------------------- 크게 보기(설계 0004 §3-2)
+   이 블록은 영역 폭별 · 세로 목록 규칙보다 뒤에 둔다(앱 창 규칙은 .agd-player를 더해 우선순위도 높임 · I-042) */
+.agd-btn .agd-ico-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.agd-btn-theater[data-state='open'] .agd-ico-expand,
+.agd-btn-theater:not([data-state='open']) .agd-ico-shrink {
+  display: none;
+}
+
+.agd-theater-close {
+  display: none;
+}
+
+/* 뒤 페이지 스크롤 잠금(크게 보기 동안만 붙는 클래스) */
+html.agd-theater-open,
+html.agd-theater-open body {
+  overflow: hidden;
+}
+
+.agent-demo.is-theater .agd-player {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000; /* 사이트 최대 z-index 999 위 */
+  display: flex;
+  flex-direction: column;
+  padding: 18px max(24px, calc((100vw - 1600px) / 2)) 18px;
+  overflow: hidden;
+  background: #f3f4f8;
+  animation: adFade 0.2s ease-out both;
+}
+
+.agent-demo.is-theater .agd-theater-close {
+  position: absolute;
+  top: 16px;
+  right: max(24px, calc((100vw - 1600px) / 2));
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #d5d8e0;
+  border-radius: 40px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333435;
+  cursor: pointer;
+}
+
+.agent-demo.is-theater .agd-theater-close:hover {
+  border-color: #111;
+}
+
+.agent-demo.is-theater .agd-theater-close:focus-visible {
+  outline: 2px solid #0042ff;
+  outline-offset: 3px;
+}
+
+.agent-demo.is-theater .agd-theater-close svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+/* 닫기 버튼과 겹치지 않게 1단 탭 줄 양옆 여백 */
+.agent-demo.is-theater .agd-projects {
+  padding: 0 120px;
+}
+
+.agent-demo.is-theater .agd-panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 12px;
+}
+
+.agent-demo.is-theater .agd-player .agd-stage {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 420px;
+}
+
+.agent-demo.is-theater .agd-bar {
+  flex: 0 0 auto;
+}
+
+.agent-demo.is-theater[data-size='sm'] .agd-player {
+  padding: 60px 12px 12px;
+}
+
+.agent-demo.is-theater[data-size='sm'] .agd-theater-close {
+  top: 10px;
+  right: 12px;
+}
+
+.agent-demo.is-theater[data-size='sm'] .agd-projects {
+  padding: 0;
+}
+
+.agent-demo.is-theater[data-layout='side'] .agd-player {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  column-gap: 20px;
+  padding-top: 72px;
+}
+
+.agent-demo.is-theater[data-layout='side'] .agd-side {
+  min-height: 0;
+  max-height: none;
+}
+
+.agent-demo.is-theater[data-layout='side'] .agd-projects {
+  padding: 0;
+}
+
+.agent-demo.is-theater[data-layout='side'] .agd-panel {
+  min-height: 0;
+  margin-top: 0;
+}
+
+.agent-demo.is-theater[data-layout='side'] .agd-player .agd-stage {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 420px;
+}
+
+/* ---------------------------------------------------------------- 키프레임 */
+@keyframes adRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes adFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes adSlide {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes adDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes adSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes adBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes adPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes adClick {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}

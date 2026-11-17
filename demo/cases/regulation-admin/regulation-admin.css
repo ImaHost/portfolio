@@ -1,0 +1,1175 @@
+/*
+ * 화면 유형 'regulation-admin' — 규정자료관리(관리자) · 포트폴리오 설계 0002 §3-1
+ * 스코프: .agd-ra(렌더러 루트, .agd-k 토큰 · 부품 위에 얹는다). 클래스 접두어 agd-ra-.
+ * 앱 창 폭: lg ≥1000 · md 700~999(왼쪽 메뉴 숨김) · sm <700(한 줄 배치).
+ */
+
+.agd-ra {
+  display: grid;
+  grid-template-columns: 172px minmax(0, 1fr);
+}
+
+.agd-ra .agd-k-ico svg {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-ra-tname,
+.agd-ra-code,
+.agd-ra-test,
+.agd-ra-result,
+.agd-ra-rmeta {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0;
+}
+
+/* ---------------------------------------------------------------- 왼쪽 메뉴(관리 › 규정자료관리) */
+.agd-ra-nav .agd-k-menu li.is-open {
+  color: var(--k-text);
+}
+
+.agd-ra-nav .agd-k-menu li.agd-ra-sub {
+  height: 30px;
+  padding-left: 34px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.agd-ra-nav .agd-k-menu li.agd-ra-sub.is-active {
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- 본문 · 목록 */
+.agd-ra-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  padding: 14px 16px 16px;
+}
+
+.agd-ra-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.agd-ra-headtext {
+  min-width: 0;
+}
+
+.agd-ra-title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.agd-ra-desc {
+  margin-top: 3px;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--k-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-ra-seg,
+.agd-ra-tseg,
+.agd-ra-tfilter {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  background: #e9ebf2;
+}
+
+.agd-ra-seg span,
+.agd-ra-tseg span,
+.agd-ra-tfilter span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-ra-seg .is-active,
+.agd-ra-tseg .is-active,
+.agd-ra-tfilter .is-active {
+  background: #fff;
+  font-weight: 700;
+  color: var(--k-p700);
+  box-shadow: var(--k-shadow);
+}
+
+.agd-ra-list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.agd-ra-listhead {
+  padding: 11px 14px 10px;
+}
+
+.agd-ra-listtitle {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.agd-ra-listcount {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+.agd-ra-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.agd-ra-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 999px;
+  font-size: 11.5px;
+  color: var(--k-muted);
+}
+
+.agd-ra-chip b {
+  font-weight: 800;
+  color: var(--k-text);
+}
+
+.agd-ra-chip.is-active {
+  border-color: var(--k-primary);
+  background: var(--k-p50);
+  color: var(--k-p700);
+}
+
+.agd-ra-chip.is-ok b {
+  color: var(--k-success-fg);
+}
+
+.agd-ra-tr {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 82px 84px 48px 44px 62px;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 48px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--k-border);
+  font-size: 12px;
+}
+
+.agd-ra-tr.is-head {
+  min-height: 32px;
+  border-top: 1px solid var(--k-border);
+  background: var(--k-alt);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--k-muted);
+}
+
+.agd-ra-tr.is-new {
+  background: #f3f9fd;
+  animation: adRise 0.35s ease-out both;
+}
+
+.agd-ra-tbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.agd-ra-c-no {
+  color: var(--k-subtle);
+}
+
+.agd-ra-c-name {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.agd-ra-rname {
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-ra-rmeta {
+  overflow: hidden;
+  font-size: 10.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-subtle);
+}
+
+.agd-ra-c-date,
+.agd-ra-c-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.agd-ra .agd-ra-state .agd-k-spin {
+  width: 10px;
+  height: 10px;
+}
+
+/* ---------------------------------------------------------------- 덮는 창 공통 */
+.agd-ra-dim {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(31, 36, 59, 0.38);
+}
+
+.agd-ra-dim.is-open {
+  display: flex;
+  animation: adFade 0.2s ease-out both;
+}
+
+/* 규정 올리기 창 */
+.agd-ra-dialog {
+  width: min(440px, 100%);
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-ra-dbody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+}
+
+.agd-ra-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 14px;
+  border: 1.5px dashed var(--k-border-strong);
+  border-radius: 10px;
+  background: var(--k-alt);
+  text-align: center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.agd-ra-drop.is-pressed,
+.agd-ra-drop.has-file {
+  border-color: var(--k-primary);
+  background: var(--k-p50);
+}
+
+.agd-ra .agd-ra-dropico svg {
+  width: 22px;
+  height: 22px;
+  color: var(--k-primary);
+}
+
+.agd-ra-droptext {
+  font-size: 12px;
+  color: var(--k-muted);
+}
+
+.agd-ra-file {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--k-p100);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--k-p700);
+}
+
+.agd-ra-drop.has-file .agd-ra-droptext {
+  display: none;
+}
+
+.agd-ra-drop.has-file .agd-ra-file {
+  display: inline-flex;
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-ra-filename {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-ra-dfield,
+.agd-ra-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.agd-ra-flabel {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--k-muted);
+}
+
+.agd-ra-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12.5px;
+  color: var(--k-subtle);
+}
+
+.agd-ra-select.is-filled {
+  color: var(--k-text);
+}
+
+.agd-ra-dfoot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 0 14px 14px;
+}
+
+/* 규정 상세 창 */
+.agd-ra-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(20, 27, 52, 0.25);
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-ra-mhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px 10px 18px;
+}
+
+.agd-ra-mtitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  min-width: 0;
+}
+
+.agd-ra-mname {
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-ra-mnote {
+  font-size: 11.5px;
+  color: var(--k-muted);
+}
+
+.agd-ra-mnote:empty {
+  display: none;
+}
+
+.agd-ra-macts {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+
+.agd-ra-close {
+  width: 30px;
+  padding: 0;
+}
+
+.agd-ra-mtabs {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 20px;
+  padding: 0 18px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--k-border);
+}
+
+.agd-ra-mtab {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-muted);
+  box-shadow: inset 0 -2px 0 transparent;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+
+.agd-ra-mtab.is-active {
+  font-weight: 700;
+  color: var(--k-p700);
+  box-shadow: inset 0 -2px 0 var(--k-primary);
+}
+
+.agd-ra-mtab.is-pressed {
+  background: var(--k-alt);
+}
+
+.agd-ra-mtabn {
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+.agd-ra-mbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 12px 14px 14px;
+  background: var(--k-alt);
+}
+
+.agd-ra-view {
+  display: none;
+}
+
+.agd-ra-view.is-active {
+  display: grid;
+  animation: adFade 0.2s ease-out both;
+}
+
+/* ---------------------------------------------------------------- 개요: 처리 과정 · 집계 */
+.agd-ra-ov {
+  grid-template-columns: minmax(0, 1fr) 280px;
+  align-items: start;
+  gap: 12px;
+}
+
+.agd-ra-stepcount {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+.agd-ra-step {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 10px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--k-border);
+  transition: background-color 0.2s;
+}
+
+.agd-ra-step:last-child {
+  border-bottom: 0;
+}
+
+.agd-ra-step.is-run {
+  background: var(--k-p50);
+}
+
+.agd-ra-stepmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 50%;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--k-subtle);
+}
+
+.agd-ra-step.is-run .agd-ra-stepmark {
+  border-color: var(--k-p100);
+}
+
+.agd-ra-step.is-done .agd-ra-stepmark {
+  border-color: var(--k-primary);
+  background: var(--k-primary);
+  color: #fff;
+}
+
+.agd-ra .agd-ra-stepmark .agd-k-ico svg {
+  width: 11px;
+  height: 11px;
+}
+
+.agd-ra-steptext {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.agd-ra-stepname {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.agd-ra-stepdesc {
+  overflow: hidden;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-ra-stepres {
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--k-p700);
+}
+
+.agd-ra-step.is-done .agd-ra-stepres {
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-ra-statgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 12px;
+}
+
+.agd-ra-stat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-alt);
+}
+
+.agd-ra-statlabel {
+  font-size: 11px;
+  color: var(--k-muted);
+}
+
+.agd-ra-statval {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-ra-statsub {
+  font-size: 10.5px;
+  color: var(--k-subtle);
+}
+
+.agd-ra .is-fresh {
+  animation: adFade 0.35s ease-out both;
+}
+
+/* ---------------------------------------------------------------- 쪽 대조 */
+.agd-ra-cmp.is-active {
+  grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  height: 100%;
+}
+
+.agd-ra-plist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.agd-ra-pitem {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 11.5px;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.agd-ra-pno {
+  width: 18px;
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+.agd-ra-pmatch {
+  color: var(--k-muted);
+}
+
+.agd-ra-pitem .agd-k-tag {
+  margin-left: auto;
+}
+
+.agd-ra-pitem.is-active,
+.agd-ra-pitem.is-pressed {
+  border-color: var(--k-p100);
+  background: var(--k-p50);
+}
+
+.agd-ra-viewer {
+  display: flex;
+  flex-direction: column;
+}
+
+.agd-ra-vbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--k-border);
+  font-size: 11.5px;
+}
+
+.agd-ra-pdf {
+  padding: 1px 5px;
+  border: 1px solid var(--k-danger-bd);
+  border-radius: 4px;
+  background: var(--k-danger-50);
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--k-danger-fg);
+}
+
+.agd-ra-vname {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-ra-vpage {
+  flex: 0 0 auto;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-ra-paperwrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 14px;
+  background: #eceef3;
+}
+
+.agd-ra-paper {
+  min-height: 100%;
+  padding: 16px 16px 20px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(20, 27, 52, 0.12);
+  font-family: 'Batang', 'AppleMyungjo', 'Nanum Myeongjo', serif;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.agd-ra-paper.is-skel i,
+.agd-ra-tbox i {
+  display: block;
+  height: 8px;
+  margin: 10px 0;
+  border-radius: 4px;
+  background: #e3e6ee;
+}
+
+.agd-ra-plabel {
+  font-weight: 700;
+}
+
+.agd-ra-ptitle {
+  margin: 2px 0 10px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.agd-ra-pbox {
+  padding: 8px 10px;
+  border: 1px solid #333;
+  list-style: none;
+}
+
+.agd-ra-pbox li + li {
+  margin-top: 3px;
+}
+
+.agd-ra-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.agd-ra-tseg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-self: stretch;
+}
+
+.agd-ra-tbox {
+  flex: 0 0 auto;
+  padding: 9px 11px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.agd-ra-dhead {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-ra-dtext {
+  margin: 2px 0 8px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--k-muted);
+}
+
+.agd-ra-dtext.is-long {
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* ---------------------------------------------------------------- 계산 도구 */
+.agd-ra-tools.is-active {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 160px; /* 시험 실행 줄을 위로 올려 토스트와 겹치지 않게 할 스크롤 여유 */
+}
+
+.agd-ra-tsum {
+  padding: 12px;
+}
+
+.agd-ra-ttags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.agd-ra-tfilter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.agd-ra-tool {
+  padding: 14px;
+}
+
+.agd-ra-ttop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.agd-ra-tname {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.agd-ra-tsrc {
+  flex: 1 1 160px;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-ra-tbtns {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.agd-ra-tdesc {
+  margin-top: 8px;
+  font-size: 12.5px;
+}
+
+.agd-ra-usage {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-alt);
+}
+
+.agd-ra-usagehead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-ra-urow {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  column-gap: 10px;
+  padding: 3px 0;
+}
+
+.agd-ra-ukey {
+  font-size: 11px;
+  color: var(--k-muted);
+}
+
+.agd-ra-uval {
+  font-size: 11.5px;
+  white-space: pre-line;
+}
+
+.agd-ra-tinput {
+  margin: 10px 0 6px;
+  font-size: 12px;
+}
+
+.agd-ra-tinput b {
+  font-weight: 800;
+}
+
+.agd-ra-code {
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #f1f3f8;
+  font-size: 12px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.agd-ra-num {
+  border-radius: 3px;
+  transition: background-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+
+.agd-ra-num.is-on {
+  background: #fff1b8;
+  box-shadow: 0 0 0 2px #fde68a;
+  color: #7a5200;
+  font-weight: 700;
+}
+
+.agd-ra-basis {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+.agd-ra-tests {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.agd-ra-tlabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-ra-test {
+  max-width: 100%;
+  padding: 2px 6px;
+  overflow: hidden;
+  border: 1px solid var(--k-success-bd);
+  border-radius: 4px;
+  background: var(--k-success-50);
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-success-fg);
+  transition: box-shadow 0.25s;
+}
+
+.agd-ra-test.is-on {
+  box-shadow: 0 0 0 2px var(--k-success);
+  animation: adPulse 0.6s ease-out 1;
+}
+
+.agd-ra-trial {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--k-border);
+}
+
+.agd-ra-triallabel {
+  align-self: center;
+  margin-top: 18px;
+}
+
+.agd-ra-input {
+  display: flex;
+  align-items: center;
+  width: 170px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.agd-ra-input.is-empty::before {
+  content: attr(data-placeholder);
+  font-weight: 400;
+  color: var(--k-subtle);
+}
+
+.agd-ra-input.is-focus,
+.agd-ra-input.is-pressed {
+  border-color: var(--k-primary);
+  box-shadow: 0 0 0 3px var(--k-p50);
+}
+
+.agd-ra-calc {
+  height: 32px;
+}
+
+.agd-ra-result {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--k-p700);
+}
+
+/* ---------------------------------------------------------------- md: 왼쪽 메뉴 숨김 · 열 줄임 */
+.agent-demo[data-size='md'] .agd-ra,
+.agent-demo[data-size='sm'] .agd-ra {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='md'] .agd-ra-nav,
+.agent-demo[data-size='sm'] .agd-ra-nav,
+.agent-demo[data-size='md'] .agd-ra-c-no,
+.agent-demo[data-size='sm'] .agd-ra-c-no,
+.agent-demo[data-size='md'] .agd-ra-c-date,
+.agent-demo[data-size='sm'] .agd-ra-c-date {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-ra-tr {
+  grid-template-columns: minmax(0, 1fr) 84px 48px 44px 62px;
+}
+
+.agent-demo[data-size='md'] .agd-ra-ov {
+  grid-template-columns: minmax(0, 1fr) 220px;
+}
+
+.agent-demo[data-size='md'] .agd-ra-cmp.is-active {
+  grid-template-columns: 124px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.agent-demo[data-size='md'] .agd-ra-pmatch {
+  font-size: 11px;
+}
+
+.agent-demo[data-size='md'] .agd-ra-pitem .agd-k-tag,
+.agent-demo[data-size='sm'] .agd-ra-tbtns .agd-k-btn,
+.agent-demo[data-size='sm'] .agd-ra-tsrc {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-ra-pitem.is-flag {
+  box-shadow: inset 3px 0 0 var(--k-warning);
+}
+
+/* ---------------------------------------------------------------- sm: 한 줄 배치 */
+.agent-demo[data-size='sm'] .agd-ra-main {
+  padding: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-desc,
+.agent-demo[data-size='sm'] .agd-ra-c-num,
+.agent-demo[data-size='sm'] .agd-ra-tr.is-head,
+.agent-demo[data-size='sm'] .agd-ra-stats,
+.agent-demo[data-size='sm'] .agd-ra-stepdesc,
+.agent-demo[data-size='sm'] .agd-ra-viewer,
+.agent-demo[data-size='sm'] .agd-ra-mnote,
+.agent-demo[data-size='sm'] .agd-ra-usage,
+.agent-demo[data-size='sm'] .agd-ra-basis {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-title {
+  font-size: 16px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-tr {
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 0 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-dim {
+  padding: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-updim {
+  padding: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-modal {
+  border-radius: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-mhead {
+  padding: 10px 12px 8px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-mname {
+  font-size: 13.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-mtabs {
+  gap: 14px;
+  padding: 0 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-mbody {
+  padding: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-ov {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-ra-step {
+  padding: 8px 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-cmp.is-active {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-plist {
+  flex-direction: row;
+  gap: 4px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-pitem {
+  height: 28px;
+  gap: 5px;
+  padding: 0 7px;
+  border-color: var(--k-border);
+  background: #fff;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-pitem .agd-k-tag {
+  margin-left: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-tool {
+  padding: 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-tfilter span {
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-field {
+  flex: 1 1 100%;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-input {
+  width: 100%;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-triallabel {
+  margin-top: 0;
+}
+
+.agent-demo[data-size='sm'] .agd-ra-test {
+  white-space: normal;
+  word-break: break-all;
+}
+
+/* md: 앱 창이 낮아 긴 차이 글은 두 줄까지만 */
+.agent-demo[data-size='md'] .agd-ra-dtext.is-long {
+  -webkit-line-clamp: 2;
+}

@@ -1,0 +1,1284 @@
+/*
+ * 화면 유형 draft-workspace — 답변 작성 창 (설계 0002 §3-2)
+ * 원본 화면의 색 · 간격을 옮겼다. 토큰(--k-*)과 공용 부품(agd-k-*)은 agent-demo-kit.css.
+ * 반복 표시(스피너 · 커서 · 깜빡임)는 .agd-k-spin · .agd-k-loop 로 일시정지를 따른다.
+ * 열 너비는 전환 없이 바로 바뀐다(그리드 열 전환 금지).
+ */
+
+.agd-dw {
+  display: flex;
+  flex-direction: column;
+  background: var(--k-surface);
+}
+
+/* ---------------------------------------------------------------- 머리(모달 제목 줄) */
+.agd-dw-head {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--k-border);
+  background: var(--k-surface);
+}
+
+.agd-dw-headl {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.agd-dw-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 7px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.agd-dw-metatitle {
+  font-weight: 800;
+  color: var(--k-p700);
+}
+
+.agd-dw-sep,
+.agd-dw-metalabel {
+  color: var(--k-subtle);
+}
+
+.agd-dw-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 700;
+}
+
+.agd-dw-mono.is-muted,
+.agd-dw-agency {
+  color: var(--k-muted);
+}
+
+.agd-dw-req {
+  margin: 0;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-dw-facts {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 18px;
+}
+
+.agd-dw-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.agd-dw-factlabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-dw-factvalue,
+.agd-dw-statusvalue {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 20px;
+}
+
+.agd-dw-factsub {
+  font-size: 11px;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-dw-deptname {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.agd-dw-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-dw-savedot {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--k-subtle);
+}
+
+.agd-dw-save[data-save='saved'] .agd-dw-savedot {
+  background: var(--k-success);
+}
+
+/* ---------------------------------------------------------------- 다음 할 일 띠 · 좁은 화면 한 줄 상태 */
+.agd-dw-band,
+.agd-dw-smstatus {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-bottom: 1px solid var(--k-border-strong);
+  background: var(--k-alt);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.agd-dw-nexttext {
+  min-width: 0;
+  word-break: keep-all;
+}
+
+.agd-dw-smstatus {
+  display: none;
+}
+
+.agd-dw-smicon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--k-primary);
+}
+
+.agd-dw-smtext {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------------- 3열 */
+.agd-dw-grid {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 300px minmax(0, 1fr) 268px;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.agd-dw-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--k-surface);
+}
+
+.agd-dw-chat {
+  border-right: 1px solid var(--k-border);
+}
+
+.agd-dw-side {
+  border-left: 1px solid var(--k-border);
+}
+
+.agd-dw-colhead {
+  overflow: hidden;
+}
+
+.agd-dw-chat .agd-dw-colhead {
+  gap: 6px;
+  padding-right: 10px;
+  padding-left: 12px;
+}
+
+.agd-dw-chat .agd-dw-colacts {
+  gap: 4px;
+}
+
+.agd-dw-chat .agd-dw-iconbtn {
+  width: 24px;
+}
+
+.agd-dw-coltitle {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.agd-dw-colacts {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.agd-dw-net {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 7px 0 5px;
+  border: 1px solid var(--k-p100);
+  border-radius: 999px;
+  background: var(--k-p50);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--k-p700);
+}
+
+.agd-dw .agd-dw-net .agd-k-ico svg {
+  width: 12px;
+  height: 12px;
+}
+
+.agd-dw-iconbtn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--k-muted);
+}
+
+.agd-dw .agd-dw-iconbtn .agd-k-ico svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------------------------------------------------------------- ① 대화 목록 */
+.agd-dw-msgs {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  padding: 14px 12px 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-dw-turn {
+  flex: 0 0 auto;
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-dw-ai {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.agd-dw-avatar {
+  display: inline-flex;
+  flex: 0 0 26px;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  margin-top: 1px;
+  border-radius: 8px;
+  background: var(--k-primary);
+  color: #fff;
+}
+
+.agd-dw-aibody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.agd-dw-ainame {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--k-muted);
+}
+
+.agd-dw-aitime {
+  font-weight: 500;
+  color: var(--k-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-dw-md {
+  font-size: 12.5px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.agd-dw-md p {
+  margin: 0 0 5px;
+}
+
+.agd-dw-md > :last-child {
+  margin-bottom: 0;
+}
+
+.agd-dw-md ul {
+  margin: 2px 0 5px;
+  padding-left: 16px;
+}
+
+.agd-dw-md li {
+  margin: 2px 0;
+  list-style: disc;
+}
+
+.agd-dw-md.is-caret > p:last-child::after,
+.agd-dw-md.is-caret > ul:last-child > li:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 13px;
+  margin-left: 3px;
+  border-radius: 2px;
+  background: var(--k-primary);
+  vertical-align: -2px;
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-dw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.agd-dw .agd-dw-blankchip {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+/* 사용자 말풍선 */
+.agd-dw-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.agd-dw-usermeta {
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+.agd-dw-bubble {
+  max-width: 88%;
+  padding: 8px 13px;
+  border-radius: 18px;
+  background: var(--k-p100);
+  font-size: 12.5px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.agd-dw-used {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+  max-width: 92%;
+}
+
+/* 자료 칩(묶음 점 + 이름) */
+.agd-dw-token {
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  max-width: 100%;
+  height: 22px;
+  padding: 0 7px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 4px;
+  background: var(--k-alt);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--k-muted);
+}
+
+.agd-dw-tokentext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agd-dw-kdot {
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--k-subtle);
+}
+
+.agd-dw-kdot[data-kind='TEAM_MATERIAL'] {
+  background: var(--k-primary);
+}
+
+.agd-dw-kdot[data-kind='ITEM_REFERENCE'] {
+  background: var(--k-p100);
+  box-shadow: 0 0 0 1px var(--k-p700);
+}
+
+/* 처리 과정 — 진행 중 펼침 · 끝나면 한 줄 */
+.agd-dw-think {
+  overflow: hidden;
+  border: 1px solid var(--k-border);
+  border-radius: 10px;
+  background: var(--k-alt);
+}
+
+.agd-dw-thinkhead {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.agd-dw-thinkicon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--k-primary);
+}
+
+.agd-dw-thinktitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-muted);
+}
+
+.agd-dw-think[data-state='RUNNING'] .agd-dw-thinktitle {
+  color: var(--k-text);
+  animation: adPulse 1.6s ease-in-out infinite;
+}
+
+.agd-dw-thinktime {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--k-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-dw-chev {
+  color: var(--k-subtle);
+}
+
+.agd-dw-think[data-open] .agd-dw-chev {
+  transform: rotate(180deg);
+}
+
+.agd-dw-steps {
+  display: none;
+  margin: 0;
+  padding: 0 12px 8px;
+  list-style: none;
+}
+
+.agd-dw-think[data-open] .agd-dw-steps {
+  display: block;
+}
+
+.agd-dw-step {
+  position: relative;
+  display: flex;
+  gap: 9px;
+  padding: 3px 0 5px;
+  list-style: none;
+  animation: adRise 0.25s ease-out both;
+}
+
+.agd-dw-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  bottom: -3px;
+  left: 7px;
+  width: 1px;
+  background: var(--k-border-strong);
+}
+
+.agd-dw-stepicon {
+  display: inline-flex;
+  flex: 0 0 15px;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  border-radius: 50%;
+}
+
+.agd-dw .agd-dw-stepicon.agd-k-spin {
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.agd-dw-step[data-s='done'] .agd-dw-stepicon {
+  background: var(--k-primary);
+  color: #fff;
+}
+
+.agd-dw .agd-dw-stepicon .agd-k-ico svg {
+  width: 9px;
+  height: 9px;
+}
+
+.agd-dw-steptext {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.agd-dw-steptitle {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-dw-stepdetail {
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--k-muted);
+}
+
+/* 초안 카드 */
+.agd-dw-card {
+  overflow: hidden;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 10px;
+  background: var(--k-surface);
+  box-shadow: 0 1px 2px rgba(20, 27, 52, 0.04);
+}
+
+.agd-dw-cardmain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 9px 10px;
+}
+
+.agd-dw-cardicon {
+  display: inline-flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--k-p50);
+  color: var(--k-primary);
+}
+
+.agd-dw .agd-dw-cardicon .agd-k-ico svg {
+  width: 17px;
+  height: 17px;
+}
+
+.agd-dw-cardtext {
+  display: flex;
+  flex: 1 1 110px;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.agd-dw-cardtitle {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.agd-dw-cardsub {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.5;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-dw .agd-dw-cardspin {
+  width: 10px;
+  height: 10px;
+  margin-top: 3px;
+}
+
+/* 입력창 */
+.agd-dw-composer {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-top: 1px solid var(--k-border);
+  background: var(--k-surface);
+}
+
+.agd-dw-box {
+  border: 1px solid var(--k-border-strong);
+  border-radius: 12px;
+  background: var(--k-surface);
+  box-shadow: var(--k-shadow);
+}
+
+.agd-dw-tray {
+  display: flex;
+  gap: 5px;
+  overflow: hidden;
+  padding: 8px 9px 0;
+}
+
+.agd-dw-tray .agd-dw-token {
+  max-width: 150px;
+}
+
+.agd-dw-input {
+  min-height: 40px;
+  padding: 7px 11px 2px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  word-break: keep-all;
+  color: var(--k-subtle);
+}
+
+.agd-dw-boxfoot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px 7px;
+}
+
+.agd-dw-send {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-alt);
+  color: var(--k-subtle);
+}
+
+.agd-dw-send.is-stop {
+  border-color: var(--k-border-strong);
+  background: var(--k-surface);
+  color: var(--k-text);
+}
+
+.agd-dw .agd-dw-send .agd-k-ico svg {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-dw-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--k-subtle);
+}
+
+.agd-dw .agd-dw-note .agd-k-ico svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* ---------------------------------------------------------------- ② 답변 편집 */
+.agd-dw-edmeta {
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.agd-dw-helpertext {
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--k-subtle);
+}
+
+.agd-dw .agd-dw-tagspin {
+  width: 9px;
+  height: 9px;
+  border-width: 1.5px;
+}
+
+.agd-dw-evtag {
+  display: none;
+}
+
+.agd-dw-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 16px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--k-border);
+  white-space: nowrap;
+}
+
+.agd-dw-tool {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 4px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  color: var(--k-muted);
+}
+
+.agd-dw-tool.is-text {
+  padding: 0 7px;
+  font-weight: 600;
+}
+
+.agd-dw-glyph {
+  font-size: 12.5px;
+  line-height: 1;
+  color: var(--k-text);
+}
+
+.agd-dw-tool.is-bold .agd-dw-glyph {
+  font-weight: 700;
+}
+
+.agd-dw-tool.is-italic .agd-dw-glyph {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.agd-dw-tool.is-underline .agd-dw-glyph {
+  text-decoration: underline;
+}
+
+.agd-dw .agd-dw-tool .agd-k-ico svg {
+  width: 15px;
+  height: 15px;
+}
+
+.agd-dw-toolsep {
+  flex: 0 0 1px;
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background: var(--k-border);
+}
+
+.agd-dw-select {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 6px 0 8px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 6px;
+  font-size: 11.5px;
+}
+
+.agd-dw .agd-dw-select .agd-k-ico svg {
+  width: 12px;
+  height: 12px;
+  color: var(--k-subtle);
+}
+
+.agd-dw-edbody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  padding: 12px 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-dw-edbox,
+.agd-dw-genbox {
+  position: relative;
+  flex: 1 0 auto;
+  min-height: 220px;
+  padding: 12px 15px;
+  border: 1px solid var(--k-border-strong);
+  border-radius: 8px;
+  background: var(--k-surface);
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+.agd-dw-edbox {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.agd-dw-edbox.is-focus {
+  border-color: var(--k-primary);
+  box-shadow: 0 0 0 3px var(--k-p50);
+}
+
+/* 생성 중 상자 — 옅은 회색 · 편집 불가 */
+.agd-dw-genbox {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  border-color: var(--k-border);
+  background: var(--k-alt);
+}
+
+.agd-dw[data-gen] .agd-dw-genbox {
+  display: flex;
+}
+
+.agd-dw[data-gen] .agd-dw-edbox,
+.agd-dw[data-gen] .agd-dw-toolbar {
+  display: none;
+}
+
+.agd-dw-genhead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  line-height: 1.4;
+}
+
+.agd-dw .agd-dw-genhead .agd-k-spin {
+  width: 14px;
+  height: 14px;
+}
+
+.agd-dw-gentitle {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.agd-dw-genphase {
+  font-size: 12px;
+  color: var(--k-muted);
+}
+
+.agd-dw-genlocked {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+.agd-dw-lines {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.agd-dw-line {
+  min-height: 1.75em;
+  white-space: pre-wrap;
+}
+
+.agd-dw-genbox .agd-dw-line {
+  animation: adFade 0.3s ease-out both;
+}
+
+.agd-dw-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  background: var(--k-primary);
+  vertical-align: text-bottom;
+  animation: adBlink 1s steps(1) infinite;
+}
+
+/* [확인 필요] 자리 — 평소엔 본문과 같고, 칩으로 고르면 선택 강조 */
+.agd-dw-mark.is-selected {
+  border-radius: 2px;
+  background: #b4d5fe;
+}
+
+/* 편집기 빈 상태(겹침) */
+.agd-dw-empty {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 20px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  text-align: center;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-dw[data-filled] .agd-dw-empty {
+  display: none;
+}
+
+.agd-dw-emptyicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--k-p50);
+  color: var(--k-primary);
+}
+
+.agd-dw .agd-dw-emptyicon .agd-k-ico svg {
+  width: 18px;
+  height: 18px;
+}
+
+.agd-dw-emptytitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--k-text);
+}
+
+.agd-dw-edfoot {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.agd-dw-chars {
+  font-size: 11px;
+  color: var(--k-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-dw-stylenote {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+/* ---------------------------------------------------------------- ③ 근거 · 제출 첨부 · 이력 */
+.agd-dw-tabs {
+  padding: 0 6px;
+}
+
+.agd-dw-sidescroll {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-dw-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.agd-dw-sectitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.agd-dw-help {
+  margin-left: auto;
+  color: var(--k-subtle);
+}
+
+.agd-dw-emptyline {
+  margin: 0;
+  padding: 22px 10px;
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-dw .agd-dw-block {
+  width: 100%;
+  height: 34px;
+}
+
+.agd-dw-helper {
+  margin: 0;
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+.agd-dw-evmeta {
+  margin-top: -5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.agd-dw .agd-dw-evnotice {
+  display: block;
+  font-size: 11px;
+  word-break: keep-all;
+}
+
+.agd-dw-evlist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agd-dw-ev {
+  flex: 0 0 auto;
+  border: 1px solid var(--k-border);
+  border-radius: 8px;
+  background: var(--k-surface);
+  animation: adRise 0.25s ease-out both;
+  transition: border-color 0.2s, background-color 0.15s, transform 0.15s;
+}
+
+.agd-dw-ev.is-open {
+  border-color: var(--k-primary);
+}
+
+.agd-dw-ev.is-pressed {
+  background: var(--k-alt);
+  transform: scale(0.985);
+}
+
+.agd-dw-evbtn {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: start;
+  padding: 9px 11px;
+}
+
+.agd-dw-evtext {
+  min-width: 0;
+}
+
+.agd-dw-evname {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.agd-dw-evline {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.45;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-dw-evcaret {
+  font-size: 11px;
+  color: var(--k-subtle);
+}
+
+.agd-dw-evquote {
+  display: none;
+  margin: 0 11px 11px;
+  padding: 9px 11px;
+  border: 1px solid var(--k-p100);
+  border-radius: 4px;
+  background: var(--k-p50);
+}
+
+.agd-dw-ev.is-open .agd-dw-evquote {
+  display: block;
+  animation: adFade 0.25s ease-out both;
+}
+
+.agd-dw-evquotetitle {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--k-p700);
+}
+
+.agd-dw-evquotetext {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.agd-dw-actionbar {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 7px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--k-border);
+}
+
+.agd-dw-blockers {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  word-break: keep-all;
+  color: var(--k-muted);
+}
+
+.agd-dw-blockers li {
+  list-style: none;
+}
+
+.agd-dw-blockers:empty {
+  display: none;
+}
+
+.agd-dw-actbtns {
+  display: flex;
+  gap: 7px;
+}
+
+.agd-dw .agd-dw-submit {
+  flex: 1 1 auto;
+}
+
+.agd-dw .agd-dw-submit.is-off {
+  border-color: var(--k-border);
+  background: var(--k-alt);
+  font-weight: 600;
+  color: var(--k-subtle);
+}
+
+/* ---------------------------------------------------------------- 멈춤 — 처리 과정 제목 깜빡임 · 답 글 끝 커서도 멈춘다 */
+.agent-demo.is-paused .agd-dw-think[data-state='RUNNING'] .agd-dw-thinktitle,
+.agent-demo.is-paused .agd-dw-md.is-caret > p:last-child::after,
+.agent-demo.is-paused .agd-dw-md.is-caret > ul:last-child > li:last-child::after {
+  animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------------- 영역 폭별 배치(§3-2)
+   md = 근거 패널 숨김(대화 | 편집) · 근거는 편집 머리 태그로 / sm = 편집기만 + 한 줄 상태 */
+.agent-demo[data-size='md'] .agd-dw-grid {
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+
+.agent-demo[data-size='md'] .agd-dw-side,
+.agent-demo[data-size='md'] .agd-dw-fact.is-dept,
+.agent-demo[data-size='md'] .agd-dw-reset,
+.agent-demo[data-size='md'] .agd-dw-fold,
+.agent-demo[data-size='md'] .agd-dw-optbtn,
+.agent-demo[data-size='md'] .agd-dw-stylenote {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-dw[data-evidence] .agd-dw-evtag {
+  display: inline-flex;
+}
+
+.agent-demo[data-size='md'] .agd-dw-head,
+.agent-demo[data-size='md'] .agd-dw-band {
+  padding-right: 14px;
+  padding-left: 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-dw-chat,
+.agent-demo[data-size='sm'] .agd-dw-side,
+.agent-demo[data-size='sm'] .agd-dw-facts,
+.agent-demo[data-size='sm'] .agd-dw-toolbar,
+.agent-demo[data-size='sm'] .agd-dw-edacts,
+.agent-demo[data-size='sm'] .agd-dw-stylenote,
+.agent-demo[data-size='sm'] .agd-dw-genlocked {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-head {
+  padding: 8px 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-req {
+  font-size: 13.5px;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-band,
+.agent-demo[data-size='sm'] .agd-dw-smstatus {
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-nexttext {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agent-demo[data-size='sm'] .agd-dw[data-turn] .agd-dw-band {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-dw[data-turn] .agd-dw-smstatus {
+  display: flex;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-colhead {
+  padding: 8px 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-edbody {
+  padding: 10px 12px;
+}
+
+.agent-demo[data-size='sm'] .agd-dw-edbox,
+.agent-demo[data-size='sm'] .agd-dw-genbox {
+  padding: 10px 12px;
+  font-size: 13px;
+}
