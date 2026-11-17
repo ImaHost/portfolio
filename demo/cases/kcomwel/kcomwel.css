@@ -1,6 +1,7 @@
 /*
- * 화면 유형 'kcomwel-assist' — AI 재해조사 어시스턴트(포트폴리오 설계 0002 §3-2)
- * 스코프: .agd-kw (렌더러 루트 .agd-k.agd-kw). 키프레임은 agent-demo.css의 adRise · adFade · adSpin · adBlink를 쓴다.
+ * 화면 유형 'kcomwel-assist' · 'kcomwel-guide' · 'kcomwel-opinion' — AI 재해조사 어시스턴트(포트폴리오 설계 0002 §3-2 · 0003)
+ * 스코프: .agd-kw (렌더러 루트 .agd-k.agd-kw, 업무가이드 .is-guide · 심사의견서 .is-opinion).
+ * 키프레임은 agent-demo.css의 adRise · adFade · adSpin · adBlink를 쓴다.
  * 배치: 앱 창 폭(data-size) lg · md는 메뉴 + 본문, sm은 메뉴를 숨기고 항목 카드의 가이드를 아래로.
  */
 
@@ -819,4 +820,682 @@
 
 .agent-demo[data-size='sm'] .agd-kw-paper {
   padding: 14px 12px 18px;
+}
+
+/* ================================================================ AI업무가이드(설계 0003 §3-1) */
+.agd-kw-seg {
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+  border: 1px solid var(--kw-primary);
+  border-radius: 3px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.agd-kw-seg span {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #222;
+  white-space: nowrap;
+}
+
+.agd-kw-seg .is-on {
+  background: var(--kw-primary);
+  color: #fff;
+}
+
+/* lg — 좌우 2단, 칸마다 안쪽 스크롤 */
+.agd-kw-gbody {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 16px;
+  min-height: 0;
+  padding: 2px 14px 0;
+  overflow: hidden;
+}
+
+.agd-kw-gcol {
+  min-width: 0;
+  min-height: 0;
+  padding-bottom: 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-kw-okmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--kw-primary);
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.agd-kw-okmark.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.agd-kw .agd-kw-okmark svg {
+  width: 10px;
+  height: 10px;
+}
+
+.agd-kw-empty.is-small {
+  padding: 26px 8px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.agd-kw-gbox {
+  margin-bottom: 10px;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--kw-line);
+  border-radius: 6px;
+  background: #fff;
+  animation: adRise 0.3s ease-out both;
+}
+
+.agd-kw-gsub {
+  margin: 2px 0 7px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+}
+
+.agd-kw-gbox .agd-kw-table + .agd-kw-gsub {
+  margin-top: 12px;
+}
+
+.agd-kw.is-guide .agd-kw-table {
+  grid-template-columns: 90px minmax(0, 1fr) 70px minmax(0, 1fr);
+}
+
+.agd-kw.is-guide .agd-kw-th {
+  word-break: keep-all;
+}
+
+/* 직종 · 근무기간 · 유효기간 */
+.agd-kw-flabel {
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #222;
+}
+
+.agd-kw-req {
+  margin-left: 2px;
+  color: #e03131;
+}
+
+.agd-kw-selects {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.agd-kw-select,
+.agd-kw-num-in {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #c9d1db;
+  background: #fff;
+  font-size: 11.5px;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.agd-kw-select {
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.agd-kw-select .is-hint {
+  color: #9aa1ab;
+}
+
+.agd-kw-select.is-focus,
+.agd-kw-num-in.is-focus {
+  border-color: var(--kw-primary);
+  box-shadow: 0 0 0 2px rgba(31, 134, 224, 0.18);
+}
+
+.agd-kw .agd-kw-selico svg {
+  width: 12px;
+  height: 12px;
+  color: #6b7280;
+}
+
+.agd-kw-frow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 12px;
+}
+
+.agd-kw-nums,
+.agd-kw-numwrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agd-kw-num-in {
+  width: 54px;
+  font-size: 12px;
+}
+
+.agd-kw-unit {
+  font-size: 11.5px;
+  color: #444;
+}
+
+.agd-kw-runrow {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 4px;
+}
+
+.agd-kw-runrow .agd-kw-btn.is-run {
+  height: 30px;
+  padding: 0 16px;
+}
+
+/* AI 가이드 */
+.agd-kw-gsec {
+  margin-bottom: 14px;
+  animation: adRise 0.3s ease-out both;
+}
+
+.agd-kw-gsec:last-child {
+  margin-bottom: 0;
+}
+
+.agd-kw-proc {
+  counter-reset: kwproc;
+}
+
+.agd-kw-proc li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: #222;
+  word-break: keep-all;
+  counter-increment: kwproc;
+}
+
+.agd-kw-proc li::before {
+  content: counter(kwproc) '.';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 700;
+}
+
+.agd-kw-proc strong {
+  font-weight: 800;
+}
+
+.agd-kw-proc li.is-writing::after {
+  content: '';
+  display: inline-block;
+  width: 1.5px;
+  height: 12px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--kw-primary);
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-kw-ghead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.agd-kw-ghead .agd-kw-gsub {
+  margin: 0;
+}
+
+/* 머리줄 있는 표 — 열 폭은 렌더러가 --kw-cols(-sm)로 준다 */
+.agd-kw-grid {
+  display: grid;
+  grid-template-columns: var(--kw-cols);
+  border-top: 2px solid #b8c4d2;
+}
+
+.agd-kw-gh,
+.agd-kw-gc {
+  padding: 6px 4px;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.agd-kw-gh {
+  border-bottom: 1px solid var(--kw-line);
+  background: var(--kw-head);
+  font-weight: 800;
+  color: #333;
+}
+
+.agd-kw-gc {
+  border-bottom: 1px solid var(--kw-line-soft);
+  color: #222;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.25s, transform 0.25s, background 0.2s;
+}
+
+.agd-kw-gc.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.agd-kw-gc.is-focus {
+  background: #fff7d6;
+}
+
+.agd-kw-link {
+  color: #1f6fd0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.agd-kw-btn.is-ratio {
+  border-radius: 12px;
+}
+
+.agd-kw-ratio {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--kw-line);
+  border-radius: 6px;
+  background: #fbfcfe;
+  animation: adRise 0.3s ease-out both;
+}
+
+.agd-kw-rbar {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  background: #eef1f5;
+  overflow: hidden;
+}
+
+.agd-kw-rseg {
+  height: 100%;
+}
+
+.agd-kw-rlegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #333;
+}
+
+.agd-kw-ritem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.agd-kw-rdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.agd-kw-rseg.is-c0,
+.agd-kw-rdot.is-c0 {
+  background: var(--kw-primary);
+}
+
+.agd-kw-rseg.is-c1,
+.agd-kw-rdot.is-c1 {
+  background: #f08c4b;
+}
+
+.agd-kw-rseg.is-c2,
+.agd-kw-rdot.is-c2 {
+  background: #9aa3ad;
+}
+
+/* md · sm — 한 단, 본문이 스크롤 */
+.agent-demo[data-size='md'] .agd-kw-gbody,
+.agent-demo[data-size='sm'] .agd-kw-gbody {
+  display: block;
+  padding-bottom: 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agent-demo[data-size='md'] .agd-kw-gcol,
+.agent-demo[data-size='sm'] .agd-kw-gcol {
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-seg {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-gbody {
+  padding: 2px 10px 14px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw.is-guide .agd-kw-table {
+  grid-template-columns: 84px minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-kw-gbox {
+  padding: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-grid {
+  grid-template-columns: var(--kw-cols-sm, var(--kw-cols));
+}
+
+.agent-demo[data-size='sm'] .agd-kw-grid .is-smhide {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-ghead {
+  flex-wrap: wrap;
+}
+
+/* ================================================================ 심사의견서(설계 0003 §3-2) */
+.agd-kw.is-opinion .agd-kw-step {
+  gap: 6px;
+  padding: 0 30px 0 8px;
+  font-size: 12px;
+}
+
+.agd-kw-obody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 10px 14px 14px;
+}
+
+/* lg · md — 좌우 2단, 칸 본문마다 안쪽 스크롤 */
+.agd-kw-opanes {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 0;
+}
+
+.agd-kw-opanes.is-swap {
+  animation: adFade 0.25s ease-out both;
+}
+
+.agd-kw-opane,
+.agd-kw-opreview {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid #d3dce8;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.agd-kw-opreview {
+  flex: 1 1 auto;
+  animation: adFade 0.25s ease-out both;
+}
+
+.agd-kw-opane.is-focus {
+  box-shadow: 0 0 0 2px #9cc9f2;
+}
+
+.agd-kw-ohead {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--kw-line-soft);
+}
+
+.agd-kw-otitle {
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agd-kw-oacts {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 5px;
+}
+
+.agd-kw-opane.is-writing .agd-kw-oacts {
+  visibility: hidden;
+}
+
+.agd-kw-opbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agd-kw-opane.is-draft .agd-kw-opbody {
+  background: #f0f6fd;
+}
+
+.agd-kw-otext {
+  border: 1.5px solid transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #222;
+  word-break: keep-all;
+  transition: border-color 0.2s, background 0.2s, padding 0.2s;
+}
+
+.agd-kw-opane.is-writing .agd-kw-otext::after,
+.agd-kw-otext.is-editing::after {
+  content: '';
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--kw-primary);
+  animation: adBlink 1s steps(1) infinite;
+}
+
+.agd-kw-otext.is-editing {
+  padding: 6px 8px;
+  border-color: var(--kw-primary);
+  background: #fff;
+}
+
+/* 자동 조회 데이터 표 — 묶음 | 라벨 | 값, 묶음 없는 표는 라벨 | 값 */
+.agd-kw-otable {
+  display: grid;
+  grid-template-columns: 96px 84px minmax(0, 1fr);
+  border-top: 1px solid var(--kw-line);
+  border-left: 1px solid var(--kw-line);
+}
+
+.agd-kw-otable.is-flat {
+  grid-template-columns: 120px minmax(0, 1fr);
+}
+
+.agd-kw-ogroup,
+.agd-kw-oth,
+.agd-kw-otd {
+  padding: 7px 9px;
+  border-right: 1px solid var(--kw-line);
+  border-bottom: 1px solid var(--kw-line);
+  font-size: 11.5px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.agd-kw-ogroup.is-in,
+.agd-kw-oth.is-in,
+.agd-kw-otd.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.agd-kw-ogroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--kw-label);
+  font-weight: 700;
+  text-align: center;
+  color: #333;
+  word-break: keep-all;
+}
+
+.agd-kw-ogsub {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #666;
+}
+
+.agd-kw-oth {
+  background: var(--kw-label);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  color: #333;
+}
+
+.agd-kw-oth.is-span {
+  grid-column: span 2;
+  text-align: left;
+}
+
+.agd-kw-otd {
+  color: #222;
+  word-break: keep-all;
+}
+
+.agd-kw-opreview .agd-kw-paper {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* md — 단계 이름을 줄이고 체크 대신 번호 색 */
+.agent-demo[data-size='md'] .agd-kw.is-opinion .agd-kw-step {
+  gap: 4px;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.agent-demo[data-size='md'] .agd-kw.is-opinion .agd-kw-stepmark {
+  display: none;
+}
+
+.agent-demo[data-size='md'] .agd-kw.is-opinion .agd-kw-step.is-done .agd-kw-num,
+.agent-demo[data-size='sm'] .agd-kw.is-opinion .agd-kw-step.is-done .agd-kw-num {
+  background: #16a34a;
+}
+
+.agent-demo[data-size='md'] .agd-kw.is-opinion .agd-kw-step.is-running .agd-kw-num,
+.agent-demo[data-size='sm'] .agd-kw.is-opinion .agd-kw-step.is-running .agd-kw-num {
+  background: var(--kw-primary);
+  animation: adBlink 0.8s steps(1) infinite;
+}
+
+.agent-demo[data-size='md'] .agd-kw-otable {
+  grid-template-columns: 76px 70px minmax(0, 1fr);
+}
+
+.agent-demo[data-size='md'] .agd-kw-otable.is-flat {
+  grid-template-columns: 100px minmax(0, 1fr);
+}
+
+/* sm — 지금 단계만 이름, 두 칸은 위아래로 · 본문이 스크롤 */
+.agent-demo[data-size='sm'] .agd-kw.is-opinion .agd-kw-step {
+  flex: 0 0 auto;
+  padding: 0 9px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw.is-opinion .agd-kw-step.is-active {
+  flex: 1 1 auto;
+}
+
+.agent-demo[data-size='sm'] .agd-kw.is-opinion .agd-kw-step:not(.is-active) .agd-kw-steplabel {
+  display: none;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-obody {
+  display: block;
+  padding: 8px 10px 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-opanes {
+  display: block;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-opane + .agd-kw-opane {
+  margin-top: 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-opbody {
+  overflow: visible;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-ohead {
+  flex-wrap: wrap;
+  padding: 6px 10px;
+}
+
+.agent-demo[data-size='sm'] .agd-kw-otable {
+  grid-template-columns: 62px 62px minmax(0, 1fr);
+}
+
+.agent-demo[data-size='sm'] .agd-kw-otable.is-flat {
+  grid-template-columns: 92px minmax(0, 1fr);
 }

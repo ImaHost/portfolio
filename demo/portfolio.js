@@ -11,7 +11,9 @@
     'regulation-admin': 'genai-work-platform',
     'assembly-answer': 'genai-work-platform',
     'disclosure-draft': 'genai-work-platform',
+    'kcomwel-guide': 'kcomwel-ai-assistant',
     'kcomwel-report': 'kcomwel-ai-assistant',
+    'kcomwel-opinion': 'kcomwel-ai-assistant',
     'kcomwel-rejection': 'kcomwel-ai-assistant',
     'txhub-perf': 'txhub-portal'
   };
