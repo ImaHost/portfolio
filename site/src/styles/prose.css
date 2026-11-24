@@ -1,0 +1,240 @@
+/* README 본문 */
+.prose {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.prose > * + * {
+  margin-top: 16px;
+}
+
+.prose .lead {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  margin-top: 64px;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+}
+
+.prose > h2:first-child {
+  margin-top: 0;
+}
+
+.prose h3 {
+  margin-top: 36px;
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 12px;
+}
+
+.prose strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li + li {
+  margin-top: 6px;
+}
+
+.prose li::marker {
+  color: var(--text-3);
+}
+
+.prose code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--code-bg);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.prose blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--line-strong);
+  color: var(--text-3);
+}
+
+/* 표 */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.prose th,
+.prose td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--bg-soft);
+  color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.prose tr:last-child td {
+  border-bottom: 0;
+}
+
+.prose td:first-child {
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .prose table {
+    min-width: 560px;
+  }
+}
+
+/* 캡처 */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.gallery[data-cols='1'] {
+  --cols: 1;
+}
+
+.gallery[data-cols='2'] {
+  --cols: 2;
+}
+
+.gallery[data-cols='3'] {
+  --cols: 3;
+}
+
+.prose .gallery + .gallery {
+  margin-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.shot figcaption {
+  margin-top: 8px;
+  color: var(--text-3);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.shot-zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  cursor: zoom-in;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.shot-zoom:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow);
+}
+
+.shot-zoom img {
+  width: 100%;
+}
+
+/* 그림 */
+.diagram-zoom {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: zoom-in;
+  /* 브라우저 기본값이 버튼 자간을 normal로 되돌린다. mermaid는 본문 자간으로 글자 폭을 재므로 같게 맞춘다(아니면 칸 끝 글자가 잘림) */
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.diagram-zoom:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow);
+}
+
+.diagram-svg svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.diagram-hint {
+  margin-top: 8px;
+  color: var(--text-3);
+  font-size: 14px;
+}
+
+.prose pre.diagram-source {
+  color: var(--text-3);
+}

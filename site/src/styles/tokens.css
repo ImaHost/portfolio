@@ -1,0 +1,57 @@
+/* 색 · 크기 토큰. 화면 스타일은 이 값만 쓴다 */
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --bg-soft: #f5f6f9;
+  --surface: #ffffff;
+  --line: #e4e7ee;
+  --line-strong: #cfd4df;
+  --text: #141828;
+  --text-2: #464c63;
+  --text-3: #6b7187;
+  --accent: #0042ff;
+  --accent-hover: #0036d1;
+  --accent-soft: #eef3ff;
+  --accent-text: #0036d1;
+  --on-accent: #ffffff;
+  --code-bg: #f1f3f7;
+  --shadow: 0 1px 2px rgb(20 24 40 / 0.04), 0 8px 24px rgb(20 24 40 / 0.06);
+  --header-bg: rgb(255 255 255 / 0.86);
+  --backdrop: rgb(10 12 20 / 0.9);
+
+  --font: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --wrap: 1120px;
+  --gutter: 24px;
+  --header-h: 60px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1016;
+    --bg-soft: #151821;
+    --surface: #151821;
+    --line: #252a37;
+    --line-strong: #353b4b;
+    --text: #e9ebf1;
+    --text-2: #b6bbca;
+    --text-3: #8a90a3;
+    --accent: #7096ff;
+    --accent-hover: #8eabff;
+    --accent-soft: #19213b;
+    --accent-text: #9fb7ff;
+    --on-accent: #0b1020;
+    --code-bg: #1a1e29;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
+    --header-bg: rgb(14 16 22 / 0.86);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 16px;
+  }
+}

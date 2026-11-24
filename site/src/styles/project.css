@@ -1,0 +1,189 @@
+.project {
+  padding-top: 32px;
+}
+
+.crumbs a {
+  color: var(--text-3);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--accent-text);
+}
+
+/* ---------------------------------------------------------------- 머리 */
+.project-head {
+  padding: 20px 0 36px;
+  border-bottom: 1px solid var(--line);
+}
+
+.project-title {
+  max-width: 900px;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.3;
+}
+
+.meta {
+  display: grid;
+  gap: 10px;
+  max-width: 900px;
+  margin-top: 28px;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 16px;
+  font-size: 15px;
+}
+
+.meta-row dt {
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+.meta-row dd {
+  color: var(--text-2);
+}
+
+.meta-row strong {
+  color: var(--text);
+}
+
+.meta-row a {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.demo-cta {
+  margin-top: 28px;
+}
+
+.demo-cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.demo-cta-note {
+  margin-top: 10px;
+  color: var(--text-3);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .meta-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------- 본문 + 목차 */
+.project-layout {
+  padding-top: 40px;
+}
+
+.project-layout.has-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 56px;
+  align-items: start;
+}
+
+.project-aside {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+}
+
+.toc-title {
+  margin-bottom: 8px;
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.toc ol {
+  padding: 0;
+  border-left: 1px solid var(--line);
+  list-style: none;
+}
+
+.toc a {
+  display: block;
+  margin-left: -1px;
+  padding: 5px 0 5px 14px;
+  border-left: 2px solid transparent;
+  color: var(--text-3);
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--text);
+}
+
+.toc a[aria-current] {
+  border-left-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .project-layout.has-toc {
+    display: block;
+  }
+  .project-aside {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- 이전 · 다음 */
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 72px;
+}
+
+.pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.pager-link:hover {
+  border-color: var(--accent);
+}
+
+.pager-next {
+  text-align: right;
+}
+
+.pager-dir {
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pager-name {
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pager > span:empty {
+    display: none;
+  }
+}
