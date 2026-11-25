@@ -23,6 +23,6 @@ export const siteConfig: SiteConfig = {
   readmeSitePrefixes: ['https://imahost.github.io/portfolio/'],
   indexable: false,
   repoUrl: 'https://github.com/ImaHost/portfolio',
-  email: 'gujjang000@gmail.com',
+  email: 'gujjang888@gmail.com',
   pdf: null,
 };
